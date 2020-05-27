@@ -1,0 +1,112 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500);
+#headinglabel
+{
+  margin:40px;
+  font-size: 10mm;
+  font-weight: 350;
+  font-family: "Roboto";
+  color: #6d7fcc;
+  width: 100%;
+}
+
+.form-group 			  {
+    font-family: "Roboto"; 
+    position:relative; 
+    margin-bottom: 40px; 
+    margin-left: 60px;
+  }
+.inputMaterial 				
+    {
+    font-size:18px;
+    padding:10px 10px 8px 5px;
+    display:block;
+    width:300px;
+    border:none;
+    border-bottom:1px solid #757575;
+  }
+.inputMaterial:focus
+   {outline:none;}
+ label {
+    color:#999; 
+    font-size:18px;
+    font-weight:normal;
+    position:absolute;
+    pointer-events:none;
+    left:5px;
+    top:18px;
+    transition:0.2s ease all; 
+    -moz-transition:0.2s ease all; 
+    -webkit-transition:0.2s ease all;
+  }
+  .labeltop{
+    top:-20px;
+    font-size:15px;
+    color: #6d7fcc;
+    font-weight:normal;
+    position:absolute;
+    pointer-events:none;
+    left:5px;
+  }
+  .inputMaterial:focus ~ label, .inputMaterial:valid ~ label 		{
+    top:-20px;
+    font-size:15px;
+    color: #6d7fcc;
+  }
+  .bar 	{
+     position:relative; 
+     display:block;
+      width:300px; 
+    }
+    span{
+        display:block;
+    }
+    .bar:before, .bar:after 	{
+        content:'';
+        height:1px; 
+        width:0;
+        bottom:1px; 
+        position: absolute;
+        background: #6d7fcc; 
+        transition:0.2s ease all; 
+        -moz-transition:0.2s ease all; 
+        -webkit-transition:0.2s ease all;
+      }
+      .bar:before {
+        left:50%;
+      }
+      .bar:after {
+        right:50%; 
+      }
+      .inputMaterial:focus ~ .bar:before, .inputMaterial:focus ~ .bar:after {
+        width:50%;
+      }
+
+      #buttonsubmit{
+        background: rgb(148, 163, 223);
+        border:0;
+        color: rgb(255, 255, 255);
+        padding:10px;
+        font-size: 16px;
+        font-weight: 300;
+        width:330px;
+        margin-left: 60px;
+        margin-top: 60px;
+        display:block;
+        cursor:pointer;
+        -webkit-transition: all 0.4s;
+        transition: all 0.4s;
+        border-radius: 2px;
+    }
+    
+    #buttonsubmit:active{
+        background: #6d7fcc;
+      color: #263238;
+    }
+    
+    #buttonsubmit:hover{
+        background: #6d7fcc;
+        color: #FFF;
+        -webkit-transition: all 0.4s;
+        transition: all 0.4s;
+    }
+    

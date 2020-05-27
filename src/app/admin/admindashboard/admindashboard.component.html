@@ -1,0 +1,146 @@
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3><a routerLink="dashboard">Library Management</a></h3>
+            <strong>LMS</strong>
+        </div>
+        <ul class="list-unstyled components">
+            <li class="active">
+                 <a routerLink="dashboard">
+                    <i><mat-icon class="icon-display">dashboard</mat-icon></i>
+                    Dashboard
+                    
+                </a>
+            </li>
+            <li class="bcd">
+                <a data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" >
+                    <i><mat-icon>library_add</mat-icon></i>
+                   Users
+                </a>
+                <ul class="collapse list-unstyled" id="usersSubmenu">
+                    <li>
+                        
+                        <a class="nav-link" routerLink="users/adduser">Add User</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" routerLink="users/viewusers">View users</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" routerLink="users/manageusers">Manage users</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="bcd">
+                <a data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" >
+                    <i><mat-icon>library_books</mat-icon></i>
+                    Books
+                </a>
+                <ul class="collapse list-unstyled" id="BooksSubmenu">
+                    <li>
+                        
+                    <a class="nav-link" routerLink="books/bookslist">List</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" routerLink="books/addbooks">Add Books</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" routerLink="books/managebooks">Manage Books</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="bcd">
+                <a data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <i><mat-icon>assignment</mat-icon></i>
+                    Projects
+                </a>
+                <ul class="collapse list-unstyled" id="projectsSubmenu">
+                    <li>
+                        
+                        <a class="nav-link" routerLink="projects/projectslist">List</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" routerLink="projects/addproject">Add Projects</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="bcd">
+                <a data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" >
+                   <i> <mat-icon> import_export</mat-icon></i>
+                   Circulation
+                </a>
+                <ul class="collapse list-unstyled" id="circulationSubmenu">
+                    <li>
+                        <a class="nav-link" routerLink="circulation/issue">Issue</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" routerLink="circulation/return">Return</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" routerLink="circulation/issuedetails">Details</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a class="nav-link" routerLink="notifydelays" >
+                    <span class="material-icons">
+                        notification_important
+                        </span>
+                    Notify Delays
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" routerLink="displaybookrequests" >
+                    <span class="material-icons">
+                        notification_important
+                        </span>
+                    Display requests
+                </a>
+            </li>
+     
+            <li>
+                <a class="nav-link" routerLink="profile/changepassword">
+                    <span class="material-icons">
+                        Profile
+                        </span>
+                    changepassword
+                </a>
+            </li>
+       </ul>
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <mat-icon>compare_arrows</mat-icon>
+                    
+                </button>
+                
+                <div id="navbarSupportedContent">
+                    <ul class="nav navbar-nav  navbar-center ml-auto">
+                        <li class="nav-item ">
+                            <h1 class="navbar-brand" style="color: #6d7fcc; font-size: 20px;" >Admin Dashboard</h1>
+                        </li>
+                        
+                    </ul>
+                </div>
+                <div id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item ">
+                            <a class="nav-link nav-link-ltr" style="color: #6d7fcc;" routerLink="../" (click)="changestatus()" id="abc"><mat-icon>logoutt</mat-icon> Log out</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    
+<div>
+    <router-outlet></router-outlet>
+</div>
+</div>
+</div>

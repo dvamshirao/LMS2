@@ -1,0 +1,24 @@
+<div class="card rounded shadow border-0 bg-light">
+    <div class="card-body p-5 rounded  bg-white">
+      <div class="text-center"><label style="font-size: 8mm;font-weight: 100;font-family:Roboto;color:#6d7fcc;">Request Details</label></div>
+      <div class="table-responsive">
+        <table id="displayreqexample" style="width:100%" class="table table-striped table-bordered" *ngIf="this.temp">
+                      <thead>
+                        <tr>
+                          <th>userid</th>
+                          <th>username</th>
+                          <th>Request</th>
+                          <th>Request Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let obj of this.bookrequestsobj" >
+                          <td>{{obj.userid}}</td>
+                          <td>{{obj.username}}</td>
+                          <td>{{obj.request}}</td>
+                          <td>{{obj.reqdate}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>

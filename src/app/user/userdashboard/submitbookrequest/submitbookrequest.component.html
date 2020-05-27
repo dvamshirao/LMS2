@@ -1,0 +1,11 @@
+<div class="jumbotron jumbotron-fluid shadow rounded-sm bg-light pt-3" style="width:100%;" *ngIf="!changepasswordstatus">
+    <div>
+        <p id="headinglabel">Submit a Request</p>
+    </div>
+<form #ref="ngForm" (ngSubmit)="submit(ref.value);ref.reset()" >
+    <div class="form-group">      
+        <textarea name="request" placeholder="Type your query here..." ngModel></textarea>
+    </div>
+    <button id="buttonsubmit" type="submit"> Submit</button>
+</form>
+</div>

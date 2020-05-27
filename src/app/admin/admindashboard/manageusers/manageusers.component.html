@@ -1,0 +1,78 @@
+  <div class="p-5 bg-light rounded shadow mb-5">
+    <!-- Lined tabs-->
+    <ul id="myTab" role="tablist" class="nav nav-tabs nav-pills with-arrow lined flex-column flex-sm-row text-center">
+      <li class="nav-item flex-sm-fill">
+        <a id="edit-tab" data-toggle="tab" data-target="#edit" role="tab" aria-controls="edit" aria-selected="true" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 active">Edit User</a>
+      </li>
+      <li class="nav-item flex-sm-fill">
+        <a id="del-tab" data-toggle="tab" data-target="#del" role="tab" aria-controls="del" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0">Delete User</a>
+      </li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+    <div id="edit" role="tabpanel" aria-labelledby="edit-tab" class="tab-pane fade pt-5 show active">
+            <form #ref="ngForm" (ngSubmit)="edituser(ref.value);ref.reset()">
+                <div class="row">
+                    <div class="col-6-sm">
+                        <div class="form-group">      
+                            <input class="inputMaterial bg-light" type="text" name="userid"  (keydown.tab)="getuserid($event.target.value)" required ngModel>
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label class="label">UserId</label>
+                          </div>
+                          <div class="form-group" *ngIf="userobjstatus">      
+                            <input class="inputMaterial bg-light" type="text" name="username" required [(ngModel)]="userObj.username">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label class="label">Username</label>
+                          </div>
+                          <div class="form-group" *ngIf="userobjstatus">      
+                            <input class="inputMaterial bg-light" type="email" name="email" required [(ngModel)]="userObj.email">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label class="label">Email</label>
+                          </div>
+                    </div>
+                    <div class="col-6-sm">
+                          <div class="form-group" *ngIf="userobjstatus">      
+                            <input class="inputMaterial bg-light" type="text" name="contactno" required [(ngModel)]="userObj.contactno">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label class="label">Contact No.</label>
+                          </div>
+                          <div class="form-group" *ngIf="userobjstatus">  
+                            <div class="selectWrapper bg-light">
+                                <select name="secques" [(ngModel)]="userObj.secques">
+                                    <option>What is your favourite Sport?</option>
+                                    <option>What is your Native Place?</option>
+                                    <option>What is your favourite flower?</option>
+                                </select>
+                            </div> 
+                        </div>
+                        <div class="form-group" *ngIf="userobjstatus">      
+                            <input class="inputMaterial bg-light" type="text" name="secans" required [(ngModel)]="userObj.secans">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label class="label">Answer</label>
+                          </div>
+                    </div>
+                </div>
+                <button id="buttonsubmit" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">create</span>Edit User</button>
+              </form>
+    </div>
+    <div id="del" role="tabpanel" aria-labelledby="del-tab" class="tab-pane fade pt-5">
+        <form #ref1="ngForm" (ngSubmit)="deluser(ref1.value);ref1.reset()">
+            <div class="row">
+                <div class="col-6-sm">
+                    <div class="form-group">      
+                        <input class="inputMaterial bg-light" type="text" name="userid" required ngModel>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">UserId</label>
+                      </div>
+                    </div>
+                </div>
+                <button id="buttonsubmit" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">delete</span>delete User</button>
+              </form>
+    </div>
+    </div>
+  </div>

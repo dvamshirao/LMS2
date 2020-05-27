@@ -1,0 +1,19 @@
+@import url('https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css');
+.lined .nav-link {
+    border: none;
+    border-bottom: 3px solid transparent;
+  }
+  
+  .lined .nav-link:hover {
+    border: none;
+    border-bottom: 3px solid transparent;
+  }
+  
+  .lined .nav-link.active {
+    background: none;
+    color: #6d7fcc;
+    border-color: #6d7fcc;
+  }
+  .nav-pills .nav-link {
+    color: #999;
+  }

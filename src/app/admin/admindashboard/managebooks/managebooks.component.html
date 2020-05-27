@@ -1,0 +1,71 @@
+<div class="p-5 bg-light rounded shadow mb-5">
+    <!-- Lined tabs-->
+    <ul id="myTab" role="tablist" class="nav nav-tabs nav-pills with-arrow lined flex-column flex-sm-row text-center">
+      <li class="nav-item flex-sm-fill">
+        <a id="edit-tab" data-toggle="tab" data-target="#edit" role="tab" aria-controls="edit" aria-selected="true" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 active">Edit Book</a>
+      </li>
+      <li class="nav-item flex-sm-fill">
+        <a id="del-tab" data-toggle="tab" data-target="#del" role="tab" aria-controls="del" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0">Delete Book</a>
+      </li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+    <div id="edit" role="tabpanel" aria-labelledby="edit-tab" class="tab-pane fade pt-5 show active">
+            <form #ref="ngForm" (ngSubmit)="editbook(ref.value);ref.reset()">
+                <div class="row">
+                    <div class="col-6-sm">   
+                            <div class="form-group">      
+                                <input class="inputMaterial bg-light" type="text" name="ISBNnumber" (keydown.tab)="getbookid($event.target.value)"  required  ngModel>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                                <label class="label">Book No</label>
+                              </div>
+                              <div class="form-group">      
+                                <input class="inputMaterial bg-light" type="text" name="bookid" required ngModel>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                                <label class="label">Enter Book Id</label>
+                              </div>
+                              <div class="form-group" *ngIf="bookobjstatus">      
+                                <input class="inputMaterial bg-light" type="text" name="publisher" required [(ngModel)]="bookObj.publisher">
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                                <label class="label">Publisher</label>
+                              </div>
+                    </div>
+                    <div class="col-6-sm">
+                        <div class="form-group" *ngIf="bookobjstatus">      
+                            <input class="inputMaterial bg-light" type="text" name="bookname" required [(ngModel)]="bookObj.bookname">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label class="label">Title</label>
+                          </div>
+                            <div class="form-group" *ngIf="bookobjstatus">      
+                                <input class="inputMaterial bg-light" type="text" name="Author" required  [(ngModel)]="bookObj.Author">
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                                <label class="label">Author</label>
+                              </div>
+                    </div>
+                </div>
+                <button id="buttonsubmit" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">create</span>Edit Book</button>
+              </form>
+    </div>
+    <div id="del" role="tabpanel" aria-labelledby="del-tab" class="tab-pane fade pt-5">
+        <form #ref1="ngForm" (ngSubmit)="delbook(ref1.value);ref1.reset()">
+            <div class="form-group">      
+                <input class="inputMaterial bg-light" type="text" name="ISBNnumber" required  ngModel>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label class="label">Book No</label>
+            </div>
+                <div class="form-group">      
+                    <input class="inputMaterial bg-light" type="text" name="bookid" required ngModel>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label">Book Id</label>
+                  </div>
+                <button id="buttonsubmit" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">delete</span>Delete Book</button>
+              </form>
+    </div>
+    </div>
+  </div>

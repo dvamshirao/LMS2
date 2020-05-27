@@ -1,0 +1,51 @@
+<div class="jumbotron jumbotron-fluid shadow rounded-sm bg-light pt-3" style="width: 100%;">
+    <div>
+        <p id="headinglabel">Return Book</p>
+    </div>
+    <form #ref="ngForm" (ngSubmit)="submitForm(ref.value);ref.reset()">
+        <div class="row">
+            <div class="col-6-sm">
+                  <div class="group">      
+                    <input class="inputMaterial bg-light"  type="text" name="bid" (keydown.tab)="getissuedetails($event.target.value)" required ngModel>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label">Book Id</label>
+                    </div>
+                    <div class="group" *ngIf="getissuedetailsstatus" >      
+                        <input class="inputMaterial bg-light" type="text" name="ISBNnumber" (keydown.tab)="getbookid($event.target.value)" value="{{issueObj.ISBNnumber}}" required>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">Book No</label>
+                      </div>
+                  <div class="group" *ngIf="bookobjstatus">      
+                    <input class="inputMaterial bg-light" type="text" name="title" value="{{bookObj.bookname}}" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label">Title</label>
+                  </div>
+                  <div class="group"  *ngIf="bookobjstatus">      
+                    <input class="inputMaterial bg-light" type="text" name="author" value="{{bookObj.Author}}" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label">Author</label>
+                  </div>
+            </div>
+            <div class="col-6-sm">
+                <div class="group" *ngIf="getissuedetailsstatus">      
+                    <input class="inputMaterial bg-light" type="text" name="userid" (keydown.tab)="getuserid($event.target.value)" value="{{issueObj.userid}}" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label">User Id</label>
+                  </div>
+                  <div class="group" *ngIf="userobjstatus" >      
+                    <input class="inputMaterial bg-light" type="text" name="username" value="{{userObj.username}}" required >
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label">User Name</label>
+                  </div>
+            </div>
+        </div>
+        <button id="buttonsubmit" type="submit">Return Book</button>
+      </form>
+</div>
+   

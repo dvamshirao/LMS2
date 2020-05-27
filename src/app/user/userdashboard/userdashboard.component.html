@@ -1,0 +1,97 @@
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3><a routerLink="dashboard">Library Management</a></h3>
+            <strong>LMS</strong>
+        </div>
+
+        <ul class="list-unstyled components">
+            <li class="active">
+                <a routerLink="dashboard">
+                    <i class="fas fa-briefcase"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li class="bcd">
+                <a data-target="#profile" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <i class="fas fa-user"></i> profile  
+                </a>
+                <ul class="collapse list-unstyled" id="BooksSubmenu">
+                    <li>
+                        
+                        <a class="nav-link" routerLink="profile/changepassword"><i class="fas fa-circle-notch"></i> Change Password</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" routerLink="profile/updatedetails"><i class="fas fa-circle-notch"></i> Update Details</a>
+                    </li>
+                </ul>
+            </li>
+           
+            <li >
+                <a class="nav-link" routerLink="viewissuedbooks">
+                    <i class="fas fa-book"></i>
+                    View Issued Books
+                </a>
+            </li>
+            <li >
+                <a class="nav-link" routerLink="viewbooks">
+                    <i class="fas fa-briefcase"></i>
+                   List of books
+                </a>
+            </li>
+            <li >
+                <a class="nav-link" routerLink="submitbookrequest">
+                    <i class="fas fa-external-link-alt"></i>
+                    Submit Request
+                </a>
+            </li>
+            
+        </ul>
+
+       
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <mat-icon>compare_arrows</mat-icon>
+                    
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav  navbar-center ml-auto">
+                        <li class="nav-item ">
+                            <h1 class="navbar-brand" style="color: #6d7fcc; font-size: 20px;" >User Dashboard</h1>
+                        </li>
+                        
+                    </ul>
+                </div>
+                    
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item ">
+                            <a class="nav-link nav-link-ltr" style="color: #6d7fcc;" routerLink="../../" (click)="changestatus()" id="abc"><mat-icon>logoutt</mat-icon>Log out</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+<div>
+    <router-outlet></router-outlet>
+</div>
+    </div>
+       </div>
+<!-- jQuery CDN - Slim version (=without AJAX) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<!-- Popper.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+

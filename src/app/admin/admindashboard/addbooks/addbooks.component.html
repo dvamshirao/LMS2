@@ -1,0 +1,46 @@
+<div class="jumbotron jumbotron-fluid shadow rounded-sm bg-light pt-3" style="width:100%;">
+    <div>
+        <p id="headinglabel">Add Book</p>
+    </div>
+    <form #ref="ngForm" (ngSubmit)="submitForm(ref.value);ref.reset()">
+        <div class="row">
+            <div class="col-6-sm">
+                <div class="form-group">      
+                    <input class="inputMaterial bg-light" type="text" name="ISBNnumber" required  ngModel>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label1">Book No</label>
+                  </div>
+                  <div class="form-group">      
+                    <input class="inputMaterial bg-light" type="text" name="ids" required ngModel>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label1">Enter Book Ids</label>
+                  </div>
+                  <div class="form-group">      
+                    <input class="inputMaterial bg-light" type="text" name="publisher" required ngModel>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label1">Publisher</label>
+                  </div>
+            </div>
+            <div class="col-6-sm">
+              <div class="form-group">      
+                <input class="inputMaterial bg-light" type="text" name="bookname" required ngModel>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label class="label1">Title</label>
+              </div>
+                <div class="form-group">      
+                    <input class="inputMaterial bg-light" type="text" name="Author" required  ngModel>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label1">Author</label>
+                  </div>
+                  
+            </div>
+        </div>
+        <button id="buttonsubmit" type="submit">Add Book</button>
+      </form>
+</div>
+

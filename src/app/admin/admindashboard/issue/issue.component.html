@@ -1,0 +1,56 @@
+<div class="jumbotron jumbotron-fluid shadow rounded-sm bg-light pt-3" style="width: 100%;">
+    <div>
+        <p id="headinglabel">Issue Book</p>
+    </div>
+    <form #ref="ngForm" (ngSubmit)="submitForm(ref.value);ref.reset()">
+        <div class="row">
+            <div class="col-6-sm">
+                <div class="form-group">   
+                    <input class="inputMaterial bg-light" type="text" name="ISBNnumber" (keydown.tab)="getbookid($event.target.value)" required [(ngModel)]="bookid">
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label">Book No</label>
+                  </div>
+                  <div class="form-group">      
+                    <input class="inputMaterial bg-light"  type="text" name="bid"  required ngModel>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label">Book Id</label>
+                    </div>
+                  <div class="form-group" *ngIf="bookobjstatus">      
+                    <input class="inputMaterial bg-light" type="text" name="title" *ngIf="bookobjstatus" value="{{bookObj.bookname}}" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label">Book Title</label>
+                  </div>
+                  <div class="form-group" *ngIf="bookobjstatus">      
+                    <input class="inputMaterial bg-light" type="text" name="author" value="{{bookObj.Author}}" required>
+                    <span class="highlight"></span> 
+                    <span class="bar"></span>
+                    <label class="label">Author</label>
+                  </div>
+            </div>
+            <div class="col-6-sm">
+                <div class="form-group">      
+                    <input class="inputMaterial bg-light" type="text" name="userid" (keydown.tab)="getuserid($event.target.value)" required [(ngModel)]="userid">
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label">User Id</label>
+                  </div>
+                  <div class="form-group" *ngIf="userobjstatus">      
+                    <input class="inputMaterial bg-light" type="text"  name="username"  value="{{userObj.username}}" required> 
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label">User Name</label>
+                  </div>
+                  <div class="form-group">      
+                    <input class="inputMaterial bg-light" type="date" name="dateofissue" [(ngModel)]="issuedate">
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                  </div>
+            </div>
+        </div>
+        <button id="buttonsubmit" type="submit">Issue Book</button>
+      </form>
+</div>
+   

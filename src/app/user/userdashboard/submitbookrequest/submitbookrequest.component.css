@@ -1,0 +1,97 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500);
+#headinglabel
+{
+  margin:40px;
+  font-size: 10mm;
+  font-weight: 350;
+  font-family: "Roboto";
+  color: #6d7fcc;
+  width: 100%;
+}
+.form-group 			  {
+    font-family: "Roboto"; 
+    position:relative; 
+    margin-bottom: 35px; 
+    margin-left: 60px;
+  }
+
+  textarea {
+    -webkit-tap-highlight-color: white;
+    width: 70%;
+    min-height: 8rem;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    line-height: 2rem;
+    font-weight: 300;
+    background:#FFFFFF;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    box-shadow: 
+      18px 18px 30px rgb(224, 228, 235), 
+      -18px -18px 30px #FFFFFF;
+    resize: vertical;
+    transition: ease .2s;
+    cursor: pointer;
+  }
+  
+  textarea::placeholder {
+    color: #6d7fcc;
+  }
+  
+  textarea:focus {
+    min-height: 12rem;
+    box-shadow: 
+      inset 18px 18px 30px rgb(224, 228, 235), 
+      inset -18px -18px 30px #FFFFFF;
+  }
+  
+  /* Chrome/Opera/Safari */
+  ::-webkit-input-placeholder { 
+    color: transparent;
+  }
+  /* Firefox 19+ */
+  ::-moz-placeholder { 
+    color: transparent;
+  }
+  /* IE 10+ */
+  :-ms-input-placeholder { 
+    color: transparent;
+  }
+  /* Firefox 18- */
+  :-moz-placeholder { 
+    color: transparent;
+  }
+  
+  textarea:placeholder-shown {
+    background: none;
+  }
+      #buttonsubmit{
+        background: rgb(148, 163, 223);
+        border:0;
+        color: rgb(255, 255, 255);
+        padding:10px;
+        font-size: 16px;
+        font-weight: 300;
+        width:330px;
+        margin-left: 60px;
+        display:block;
+        cursor:pointer;
+        -webkit-transition: all 0.4s;
+        transition: all 0.4s;
+        border-radius: 2px;
+        outline: none;
+    }
+    
+    #buttonsubmit:active{
+        background: #6d7fcc;
+        outline: none;
+    }
+    
+    #buttonsubmit:hover{
+        background: #6d7fcc;
+        color: #FFF;
+        -webkit-transition: all 0.4s;
+        transition: all 0.4s;
+    }
+    

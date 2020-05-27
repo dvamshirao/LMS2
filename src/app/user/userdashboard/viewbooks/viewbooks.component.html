@@ -1,0 +1,28 @@
+<div class="card rounded shadow border-0 bg-light">
+    <div class="card-body p-5 rounded  bg-white">
+      <div class="text-center"><label style="font-size: 8mm;font-weight: 100;font-family:Roboto;color:#6d7fcc;">List of Books</label></div>
+      <div class="table-responsive">
+        <table id="example" style="width:100%" class="table table-striped table-bordered" *ngIf="this.temp">
+                      <thead>
+                        <tr>
+                          <th>ISBN Number</th>
+                          <th>Book Name</th>
+                          <th>Author</th>
+                          <th>Publication</th>
+                          <th>Total Books</th>
+                          <th>Available</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let obj of this.bookObj" >
+                          <td>{{obj.ISBNnumber}}</td>
+                          <td>{{obj.bookname}}</td>
+                          <td>{{obj.Author}}</td>
+                          <td>{{obj.publisher}}</td>
+                          <td>{{obj.total}}</td>
+                          <td>{{obj.count}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>

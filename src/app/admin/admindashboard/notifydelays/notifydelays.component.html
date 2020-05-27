@@ -1,0 +1,24 @@
+<div class="card rounded shadow border-0 bg-light">
+    <div class="card-body p-5 rounded  bg-white">
+      <div class="text-center"><label style="font-size: 8mm;font-weight: 100;font-family:Roboto;color:#6d7fcc;">User Details</label></div>
+      <div class="table-responsive">
+        <table id="delaysexample" style="width:100%" class="table table-striped table-bordered" *ngIf="this.temp">
+                <thead>
+                        <tr>
+                          <th>User Id</th>
+                          <th>Book id</th>
+                          <th>Date of issue</th>
+                          <th>Delay</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let obj of this.userObj" >
+                          <td>{{obj.userid}}</td>
+                          <td>{{obj.bid}}</td>
+                          <td>{{obj.dateofissue}}</td>
+                          <td>{{obj.days}} days</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
