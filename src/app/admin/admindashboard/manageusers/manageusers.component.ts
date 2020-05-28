@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
+import 'sweetalert2/src/sweetalert2.scss'
+
 
 @Component({
   selector: 'app-manageusers',
@@ -9,63 +12,124 @@ import { HttpClient } from '@angular/common/http';
 export class ManageusersComponent implements OnInit {
   labelstatus:string="labeltop";
   editstatus:boolean=true;
+  editbuttonstatus:boolean=false;
   userid:string;
   userObj:object;
   userobjstatus:boolean=false;
   constructor(private hc:HttpClient) { }
-
+ 
   ngOnInit() {
     
   }
   getuserid(userid) {
     this.userid=userid;
-    console.log("user id is",this.userid);
+    if(!(this.userid==null || this.userid.trim()=="")){
     this.hc.get(`/admin/admindashboard/circulation/issuefinduser/${this.userid}`).subscribe((objOfres:object)=>{
       this.userObj=objOfres["data"];
       if(this.userObj!=null){
-      this.userobjstatus=true;}
+      this.userobjstatus=true;
+      this.editbuttonstatus=true;
+    }
       else{
         this.userid="";
-      alert("enter correct user details");}
-  });
+        this.editbuttonstatus=false;
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid details!',
+          text: 'Enter correct userid',
+        });  }
+  });}
+  else{
+    Swal.fire({
+      icon: 'error',
+      title: 'Fill all details!',
+     
+    });  
+  }
   }
   edituser(obj)
   {
-    console.log("userid in edit",obj);
+    
     if(this.isvalid(obj)){
       this.hc.put('admin/edituser',obj).subscribe((res)=>{
         if(res["message"]=="user details updated")
         {
-          alert("user details updated succesfully");
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'User details edited Successfully',
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
         else{
-          alert(res["message"]);
+          Swal.fire({
+            icon: 'error',
+            title: res["message"]
+          });  
         }
       });
         this.userobjstatus=false;  
     }
     else{
-      alert("Please fill all details properly!");
+      Swal.fire({
+        icon: 'error',
+        title: 'Fill all details!',
+       
+      });  
     }
         }
+delswaluser(obj){
+  if(this.isvalid(obj)){
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do You ant to delete User-'+obj["userid"] +'!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, Delete!',
+    cancelButtonText: 'No, back'
+  }).then((result) => {
+    if (result.value) {
+     this.deluser(obj);
 
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+    Swal.fire(
+      'Cancelled',
+      'user not deleted :)',
+      'error'
+    )
+    }
+  })
+}
+else{
+  Swal.fire({
+    icon: 'error',
+    title: 'Fill all details!',
+   
+  });  
+}
+}
    deluser(obj)
    {
-    if(this.isvalid(obj)){
-    console.log("userid in deluser func ts",obj);
      this.hc.delete(`/admin/deleteuser/${obj['userid']}`).subscribe((res=>{
       if(res["message"]=="user deleted")
       {
-        alert("user deleted succesfully");
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'User deleted Successfully',
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
       else{
-        alert(res["message"]);
+        Swal.fire({
+          icon: 'error',
+          title: res["message"]
+        }); 
       }
      }));
-    }
-    else{
-      alert("Please fill all details properly!");
-    }
+ 
    }     
 
   isvalid(obj)

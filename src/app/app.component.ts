@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import * as $ from 'jquery';
 import { LoginService } from './login.service';
 declare var jQuery: any;
+import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 @Component({
   selector: 'app-root',
@@ -72,7 +74,7 @@ export class AppComponent implements OnInit{
       });
     
     })(jQuery); // End of use strict
- 
+   
     setTimeout(()=>{
       this.ls.userLoginStatus=false;
       this.ls.adminLoginStatus=false;
@@ -81,22 +83,35 @@ export class AppComponent implements OnInit{
   }
   submitForm(dataObj)
   {
-    
     this.ls.doLoginuser(dataObj).subscribe((result)=>{
      if(result["message"]=="invalid username")
      {
-       alert("invalid username");
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Username!',
+        text: 'Enter Correct Username',
+      });
      }
      else if(result["message"]=="invalid password")
      {
-       alert("invalid password");
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Password!',
+        text: 'Enter Correct Password',
+      });
      }
      else
      { 
        if(result["check"]=="admin")
        {
-        alert("admin login success");
-        console.log(result["message"]);
+        
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Success!',
+          text: 'Admin Login Successful',
+          showConfirmButton: false,
+          timer: 1500
+        });
         //save token in local storage of browser
         localStorage.setItem("token",result["message"]);
  
@@ -108,9 +123,13 @@ export class AppComponent implements OnInit{
 
        }
        else{
-
-       
-        alert("login success");
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Success!',
+          text: 'Welcome '+result['username'],
+          showConfirmButton: false,
+          timer: 1500
+        });
         //save token in local storage of browser
         localStorage.setItem("token",result["message"]);
 

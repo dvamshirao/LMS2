@@ -37,7 +37,7 @@
     -moz-transition:0.2s ease all; 
     -webkit-transition:0.2s ease all;
   }
-  .inputMaterial:focus ~ label, .inputMaterial:valid ~ label 		{
+  .inputMaterial:focus ~ label, .inputMaterial:valid ~ label, 	.inputMaterial:disabled ~ label	{
     top:-20px;
     font-size:15px;
     color: #6d7fcc;

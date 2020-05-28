@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserdashboardComponent } from '../userdashboard.component';
 import { UserobjService } from 'src/app/userobj.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 @Component({
   selector: 'app-userupdatedetails',
@@ -19,27 +21,53 @@ export class UserupdatedetailsComponent implements OnInit {
 this.userObj=this.us.userObj;
 this.displaystatus=true;
 this.userstring=this.userObj["username"];
-console.log("in profile",this.userObj)
+
   }
   submitform(userobj)
-  {
+  {if(this.isvalid(userobj)){
     userobj["userid"]=this.us.userObj["userid"];
     console.log("in submot form",userobj);
     this.uos.edituserdetails(userobj).subscribe((res)=>{
       if(res["message"]=="user details updated")
       {
-        alert("user details updated succesfully");
+        Swal.fire({
+          icon: 'success',
+          title: 'Updated!',
+          text: "user details updated succesfully",
+        });
         this.router.navigate(['/userdashboard',this.userObj["username"]]);
       }
       else{
-        alert(res["message"]);
+        Swal.fire({
+          icon: 'error',
+          text: res["message"],
+        });  
       }
     });
   }
+  else{
+    Swal.fire({
+      icon: 'error',
+      text: 'Fill all details!',
+     
+    });  
+  }
+}
 edituser()
 {
   this.editstatus=false;
   this.labelstatus="label";
   this.userstring="Edit "+this.userObj["username"];
+}
+isvalid(obj)
+  {
+    var f:boolean=true;
+    for (var key in obj) {
+      if(obj[key]==null || obj[key].trim()==""){
+        f=false;
+        break;
+      }  
+  }
+  return f;
 }
 }

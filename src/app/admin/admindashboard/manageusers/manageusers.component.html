@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-6-sm">
                         <div class="form-group">      
-                            <input class="inputMaterial bg-light" type="text" name="userid"  (keydown.tab)="getuserid($event.target.value)" required ngModel>
+                            <input class="inputMaterial bg-light" type="text" name="userid" (keydown.enter)="getuserid($event.target.value)" required  ngModel>
                             <span class="highlight"></span>
                             <span class="bar"></span>
                             <label class="label">UserId</label>
@@ -56,11 +56,11 @@
                           </div>
                     </div>
                 </div>
-                <button id="buttonsubmit" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">create</span>Edit User</button>
+                <button id="buttonsubmit1" type="submit" [disabled]="!editbuttonstatus"><span class="material-icons" style="display: inline-flex; vertical-align: top;">create</span>Edit User</button>
               </form>
     </div>
     <div id="del" role="tabpanel" aria-labelledby="del-tab" class="tab-pane fade pt-5">
-        <form #ref1="ngForm" (ngSubmit)="deluser(ref1.value);ref1.reset()">
+        <form #ref1="ngForm" (ngSubmit)="delswaluser(ref1.value);ref1.reset()">
             <div class="row">
                 <div class="col-6-sm">
                     <div class="form-group">      
@@ -71,7 +71,7 @@
                       </div>
                     </div>
                 </div>
-                <button id="buttonsubmit" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">delete</span>delete User</button>
+                <button id="buttonsubmit2" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">delete</span>delete User</button>
               </form>
     </div>
     </div>

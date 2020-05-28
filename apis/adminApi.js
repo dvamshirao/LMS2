@@ -172,6 +172,14 @@ adminApp.post('/issue',(req,res)=>{
                      console.log("hello",req.body);
                      bookCollectionObj.updateOne({ISBNnumber:req.body.ISBNnumber,"ids.bid":req.body.bid},{$set:{"ids.$.status":true}});
                      bookCollectionObj.updateOne({ISBNnumber:req.body.ISBNnumber},{$inc:{"count":-1}});
+                     issueCollectionObj.findOne({bid:req.body.bid},req.body,(err,isbobj)=>{
+                        if(err){
+                            console.log("error");
+                        }
+                        else if(isbobj!=null){
+                            res.send({message:"book already issued"});
+                        }
+                        else{
                      issueCollectionObj.insertOne(req.body,(err,success)=>{
                          if(err)
                          {
@@ -180,7 +188,7 @@ adminApp.post('/issue',(req,res)=>{
                          else{
                              res.send({message:"book issued"});
                          }
-                     });
+                     });} });
                  }
                  else{
                     res.send({message:"book is not available to issue"});
@@ -331,7 +339,7 @@ adminApp.delete('/deleteuser/:userid',(req,res)=>{
         }
         else if(obj!=null)
         {
-            userCollectionObj.deleteOne(({"userid":req.body.userid}),(err,delobj)=>{
+            userCollectionObj.deleteOne(({"userid":req.params.userid}),(err,delobj)=>{
                 if(err)
                 {
                     res.send({message:"error in deletion"}); 
@@ -504,14 +512,14 @@ adminApp.post('/login',(req,res)=>{
 });
 adminApp.post('/userRegister',(req,res)=>{
     var userCollectionObj=dbo.getDb().usercollectionobj;
-    userCollectionObj.findOne({username:req.body.username},(err,userObjFromDB)=>{
+    userCollectionObj.findOne({userid:req.body.userid},(err,userObjFromDB)=>{
         if(err)
         {
             console.log('error in register',err)
         }
         else if(userObjFromDB!=null)
         {
-            res.send({message:'username already existed'});
+            res.send({message:'userid already existed'});
         }
         else
         {   

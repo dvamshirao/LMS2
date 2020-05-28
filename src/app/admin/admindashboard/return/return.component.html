@@ -6,13 +6,13 @@
         <div class="row">
             <div class="col-6-sm">
                   <div class="group">      
-                    <input class="inputMaterial bg-light"  type="text" name="bid" (keydown.tab)="getissuedetails($event.target.value)" required ngModel>
+                    <input class="inputMaterial bg-light"  type="text" name="bid" [disabled]="disablebid" (keydown.tab)="getissuedetails($event.target.value)" required ngModel>
                     <span class="highlight"></span>
                     <span class="bar"></span>
                     <label class="label">Book Id</label>
                     </div>
                     <div class="group" *ngIf="getissuedetailsstatus" >      
-                        <input class="inputMaterial bg-light" type="text" name="ISBNnumber" (keydown.tab)="getbookid($event.target.value)" value="{{issueObj.ISBNnumber}}" required>
+                        <input class="inputMaterial bg-light" type="text" name="ISBNnumber" [disabled]="disablebno" (keydown.tab)="getbookid($event.target.value)" value="{{issueObj.ISBNnumber}}" required>
                         <span class="highlight"></span>
                         <span class="bar"></span>
                         <label class="label">Book No</label>
@@ -32,7 +32,7 @@
             </div>
             <div class="col-6-sm">
                 <div class="group" *ngIf="getissuedetailsstatus">      
-                    <input class="inputMaterial bg-light" type="text" name="userid" (keydown.tab)="getuserid($event.target.value)" value="{{issueObj.userid}}" required>
+                    <input class="inputMaterial bg-light" type="text" name="userid" [disabled]="disableuno" (keydown.tab)="getuserid($event.target.value)" value="{{issueObj.userid}}" required>
                     <span class="highlight"></span>
                     <span class="bar"></span>
                     <label class="label">User Id</label>

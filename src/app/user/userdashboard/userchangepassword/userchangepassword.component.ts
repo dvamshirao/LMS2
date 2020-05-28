@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserdashboardComponent } from '../userdashboard.component';
 import { UserobjService } from 'src/app/userobj.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 @Component({
   selector: 'app-userchangepassword',
@@ -27,23 +29,48 @@ secques:string="";
     }
   }
   submitsecques2(secqobj){
+    if(this.isvalid(secqobj)){
     if (this.userObj["secans"]==secqobj.secans)
     {
-      alert("verification succesful");
+      Swal.fire({
+        icon: 'success',
+        title: 'Correct!',
+        text: "verification succesful",
+        showConfirmButton: false,
+        timer: 1500
+      });
      this.changepasswordstatus=true;
      this.secquestatusverify=false;
     }
     else{
-      alert("Wrong Answer");
+      Swal.fire({
+        icon: 'error',
+        text: 'Wrong Answer!',
+       
+      });
     }
   }
+  else{
+    Swal.fire({
+      icon: 'error',
+      text: 'Fill all details!',
+     
+    });  
+  }
+  }
   submitsecques1(secqobj){
+    if(this.isvalid(secqobj)){
     secqobj["userid"]=this.userObj["userid"];
-    console.log(secqobj);
     this.uos.addsecques(secqobj).subscribe((res)=>{
       if(res["message"]=="added successfully")
       {
-        alert("Added successfully");
+        Swal.fire({
+          icon: 'success',
+          title: 'Succes!',
+          text: "Security Question Added",
+          showConfirmButton: false,
+          timer: 1500
+        });
         this.secquestatus=false;
         this.router.navigate(['/userdashboard',this.userObj["username"]]);
       }
@@ -54,21 +81,58 @@ secques:string="";
     }) 
     this.userObj=this.us.getuserobjfromDb();
   }
+  else{
+    Swal.fire({
+      icon: 'error',
+      text: 'Fill all details!',
+     
+    });  
+  }
+  }
   submitcp(secqobj){
+    if(this.isvalid(secqobj)){
     secqobj["userid"]=this.userObj["userid"];
     console.log("cp fun obj",secqobj);
     this.uos.changepasswrd(secqobj).subscribe((res)=>{
       if(res["message"]=="password successfully updated")
       {
-        alert("password successfully updated");
+        Swal.fire({
+          icon: 'success',
+          title: 'Succes!',
+          text: "Password Updated",
+          showConfirmButton: false,
+          timer: 1500
+        });
         this.secquestatus=false;
         this.secquestatusverify=true;
         this.changepasswordstatus=false;
       }
       else{
-        alert(res["message"]);
-        console.log("here is error in uscg",res);
+        Swal.fire({
+          icon: 'error',
+          text: res["message"],
+         
+        });
+       
       }
-    });
+    });}
+    else{
+      Swal.fire({
+        icon: 'error',
+        text: 'Fill all details!',
+       
+      });  
+    }
   }
+  isvalid(obj)
+  {
+    var f:boolean=true;
+    for (var key in obj) {
+      if(obj[key]==null || obj[key].trim()==""){
+        f=false;
+        break;
+      }  
+  }
+  return f;
+}
 }

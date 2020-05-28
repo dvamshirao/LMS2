@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 @Component({
   selector: 'app-return',
@@ -10,10 +12,13 @@ import { DatePipe } from '@angular/common';
 })
 export class ReturnComponent implements OnInit {
   bookid:string;
-  userid1:string;
+  userid:string;
   userObj:object;
   bookObj:object;
   issueObj:object;
+  disablebid:boolean=false;
+  disablebno:boolean=false;
+  disableuno:boolean=false;
   bookobjstatus:boolean=false;
   userobjstatus:boolean=false;
   getissuedetailsstatus:boolean=false;
@@ -24,63 +29,132 @@ dateofreturn:any;
   inputText :string = "I am sample text";
   ngOnInit() {
    this.dateofreturn=this.datePipe.transform(this.myDate,'yyyy-MM-dd');
-   console.log(this.dateofreturn);
+   //console.log(this.dateofreturn);
   }
  
   getbookid(bookid) {
     this.bookid=bookid;
-    console.log("book id is",this.bookid);
-  this.hc.get(`/admin/admindashboard/circulation/issuefindbook/${this.bookid}`).subscribe((objOfres:object)=>{
-    this.bookObj=objOfres["data"];
-    if (this.bookObj==null)
-    {
-      alert(objOfres["message"]);
-    }
+    if(!(this.bookid==null || this.bookid.trim()=="")){
+        this.hc.get(`/admin/admindashboard/circulation/issuefindbook/${this.bookid}`).subscribe((objOfres:object)=>{
+        this.bookObj=objOfres["data"];
+        if (this.bookObj!=null){
+          this.disablebno=true;
+          this.bookobjstatus=true;}
+        else{
+          this.bookid='';
+          Swal.fire({
+            icon: 'error',
+            text: 'enter correct book number!',
+            }); 
+            }
+          });
+        }
     else{
-      this.bookobjstatus=true;}
-   console.log("this is book obj",this.bookObj);});
-    
+      this.bookobjstatus=false;
+      this.userobjstatus=false; 
+      Swal.fire({
+        icon: 'error',
+        text: 'Fill all details!',
+     });  
+  }
  } 
  getuserid(userid) {
-  this.userid1=userid;
-  console.log("user id is",this.userid1);
-  this.hc.get(`/admin/admindashboard/circulation/issuefinduser/${this.userid1}`).subscribe((objOfres:object)=>{
+  this.userid=userid;
+  if(!(this.userid==null || this.userid.trim()=="")){
+  this.hc.get(`/admin/admindashboard/circulation/issuefinduser/${this.userid}`).subscribe((objOfres:object)=>{
     this.userObj=objOfres["data"];
-    if (this.userObj==null)
-    {
-      alert(objOfres["message"]);
-    }
+    if(this.userObj!=null){
+      this.disableuno=true;
+    this.userobjstatus=true;}
     else{
-      this.userobjstatus=true;}
-});
+      this.userid="";
+      Swal.fire({
+        icon: 'error',
+        text: 'enter correct user id!',
+       
+      }); }
+});}
+else{
+  this.bookobjstatus=false;
+  this.userobjstatus=false; 
+  Swal.fire({
+    icon: 'error',
+    text: 'Fill all details!',
+   
+  });  
+  
+}
 }
 getissuedetails(bid)
 {
   this.bid=bid;
-  console.log("bid id is",this.bid);
+  if(!(this.bid==null || this.bid.trim()=="")){
   this.hc.get(`/admin/admindashboard/circulation/returnfindbid/${this.bid}`).subscribe((objOfres:object)=>{
     this.issueObj=objOfres["data"];
     if (this.issueObj==null)
-    {
-      alert(objOfres["message"]);
+    { 
+       Swal.fire({
+        icon: 'error',
+        text: objOfres["message"],
+       
+      });
     }
     else{
+    this.disablebid=true;
     this.getissuedetailsstatus=true;}
-  });
+  });}else{
+    this.disablebno=false;
+    this.disablebid=false;
+    this.disableuno=false;
+    this.bookobjstatus=false;
+    this.userobjstatus=false; 
+    Swal.fire({
+      icon: 'error',
+      text: 'Fill all details!',
+     
+    });  
+    
+  }
 }
 
   submitForm(returnobj)
   {
     if(this.isvalid(returnobj)){
       this.hc.post('/admin/return',returnobj).subscribe((res)=>{
-        alert(res["message"]);   
+        if(res["message"]=="bookreturned successfully"){
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Book Returned Successfully',
+            showConfirmButton: false,
+            timer: 1500
+          });}
+          else{
+            Swal.fire({
+              icon: 'error',
+              text: res["message"],
+            });  
+          }  
          });
+         this.disablebno=false;
+         this.disablebid=false;
+         this.disableuno=false;
          this.bookobjstatus=false;
          this.userobjstatus=false;
          this.getissuedetailsstatus=false;
     }
     else{
-     alert("Please fill all details properly!")
+      this.disablebno=false;
+      this.disablebid=false;
+      this.disableuno=false;
+      this.bookobjstatus=false;
+      this.userobjstatus=false;
+      this.getissuedetailsstatus=false;
+      Swal.fire({
+        icon: 'error',
+        text: 'Fill all details!',
+       
+      });  
     }
   }
   isvalid(obj)
