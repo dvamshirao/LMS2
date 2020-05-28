@@ -79,6 +79,35 @@ export class ManageusersComponent implements OnInit {
       });  
     }
         }
+ edituid(obj)
+ {
+   if(this.isvalid(obj)){
+     this.hc.put('admin/edituid',obj).subscribe((res)=>{
+       if(res["message"]=="user details updated")
+       {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'UserID Updated Successfully',
+          showConfirmButton: false,
+          timer: 1500
+        });
+       }
+       else{
+        Swal.fire({
+          icon: 'error',
+          text: res["message"]
+        });  
+       }
+     });
+   }
+   else{
+    Swal.fire({
+      icon: 'error',
+      text: 'Fill all details!',
+     
+    });  
+   }}
 delswaluser(obj){
   if(this.isvalid(obj)){
   Swal.fire({

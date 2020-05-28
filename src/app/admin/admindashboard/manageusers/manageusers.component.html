@@ -10,6 +10,10 @@
     </ul>
     <div id="myTabContent" class="tab-content">
     <div id="edit" role="tabpanel" aria-labelledby="edit-tab" class="tab-pane fade pt-5 show active">
+      <div>
+        <div>
+          <p id="headinglabel">Edit User Details</p>
+      </div>
             <form #ref="ngForm" (ngSubmit)="edituser(ref.value);ref.reset()">
                 <div class="row">
                     <div class="col-6-sm">
@@ -58,6 +62,29 @@
                 </div>
                 <button id="buttonsubmit1" type="submit" [disabled]="!editbuttonstatus"><span class="material-icons" style="display: inline-flex; vertical-align: top;">create</span>Edit User</button>
               </form>
+        </div>
+        <hr/>
+        <div>
+          <div>
+            <p id="headinglabel">Edit UserId</p>
+        </div>
+        <form #refedituid="ngForm" (ngSubmit)="edituid(refedituid.value);refedituid.reset()">
+          <div class="form-group">      
+            <input class="inputMaterial bg-light" type="text" name="userid" required  ngModel>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label class="label">Old User id</label>
+          </div>
+        <div class="form-group">      
+          <input class="inputMaterial bg-light" type="text" name="userid1" required ngModel>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="label">Enter New User id</label>
+        </div>
+        <button id="buttonsubmit3" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">create</span>Edit UserID</button>
+      </form>
+        </div>
+
     </div>
     <div id="del" role="tabpanel" aria-labelledby="del-tab" class="tab-pane fade pt-5">
         <form #ref1="ngForm" (ngSubmit)="delswaluser(ref1.value);ref1.reset()">

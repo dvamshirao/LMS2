@@ -357,9 +357,37 @@ adminApp.delete('/deleteuser/:userid',(req,res)=>{
     });
 });
 
+adminApp.delete('/deletebook/:bookno',(req,res)=>{
+    var bookCollectionObj=dbo.getDb().bookcollectionobj;
+    bookCollectionObj.findOne({ISBNnumber:req.params.bookno},(err,obj)=>{
+        if(err)
+        {
+            console.log("error");
+        }
+        else if(obj!=null)
+        {
+            bookCollectionObj.deleteOne(({"ISBNnumber":req.params.bookno}),(err,delobj)=>{
+                if(err)
+                {
+                    res.send({message:"error in deletion"}); 
+                }
+                else
+                {
+                    res.send({message:"book deleted"}); 
+                }
+            });
+
+        }
+        else{
+            res.send({message:"book not found"});
+        }
+    });
+});
+
+
 adminApp.put('/editbook',(req,res)=>{
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
-    bookCollectionObj.findOne({userid:req.body.userid},(err,obj)=>{
+    bookCollectionObj.findOne({ISBNnumber:req.body.ISBNnumber},(err,obj)=>{
         if(err)
         {
             console.log("error");
@@ -368,7 +396,7 @@ adminApp.put('/editbook',(req,res)=>{
         {
             bookCollectionObj.updateOne(
                 { ISBNnumber : req.body.ISBNnumber },
-                { $set: { "title" : req.body.title , "Author" : req.body.Author ,"Publisher" : req.body.Publisher} },(err,succ)=>{
+                { $set: { "bookname" : req.body.bookname , "Author" : req.body.Author ,"publisher" : req.body.publisher} },(err,succ)=>{
                     if(err)
                     {
                         res.send({message:"error in updation"});
@@ -380,6 +408,100 @@ adminApp.put('/editbook',(req,res)=>{
         }
         else{
             res.send({message:"book not found"});
+        }
+    });
+
+});          
+adminApp.put('/editbno',(req,res)=>{
+    var bookCollectionObj=dbo.getDb().bookcollectionobj;
+    var issueCollectionObj=dbo.getDb().issuecollectionobj;
+    var returnCollectionObj=dbo.getDb().returncollectionobj;
+    bookCollectionObj.findOne({ISBNnumber:req.body.ISBNnumber},(err,obj)=>{
+        if(err)
+        {
+            console.log("error");
+        }
+        else if(obj!=null)
+        {
+            bookCollectionObj.updateOne(
+                { ISBNnumber : req.body.ISBNnumber },
+                { $set: { "ISBNnumber" : req.body.ISBNnumber1} },(err,succ)=>{
+                    if(err)
+                    {
+                        res.send({message:"error in updation"});
+                    }
+                    else{
+                        res.send({message:"book details updated"});
+                    }
+                });
+                issueCollectionObj.updateMany({ ISBNnumber : req.body.ISBNnumber },{ $set: { "ISBNnumber" : req.body.ISBNnumber1} },(err,succ)=>{if(err) console.log(err);});
+                returnCollectionObj.updateMany({ ISBNnumber : req.body.ISBNnumber },{ $set: { "ISBNnumber" : req.body.ISBNnumber1} },(err,succ)=>{if(err) console.log(err);});
+        }
+        else{
+            res.send({message:"book not found"});
+        }
+    });
+
+});          
+adminApp.put('/editbid',(req,res)=>{
+    var bookCollectionObj=dbo.getDb().bookcollectionobj;
+    var issueCollectionObj=dbo.getDb().issuecollectionobj;
+    var returnCollectionObj=dbo.getDb().returncollectionobj;
+    bookCollectionObj.findOne({ISBNnumber:req.body.ISBNnumber},(err,obj)=>{
+        if(err)
+        {
+            console.log("error");
+        }
+        else if(obj!=null)
+        {
+            bookCollectionObj.updateOne(
+                { ISBNnumber : req.body.ISBNnumber, "ids.bid" : req.body.bookid },{ $set: { "ids.$.bid" : req.body.bookid1 } },(err,succ)=>{
+                    if(err)
+                    {
+                        res.send({message:"error in updation"});
+                    }
+                    else{
+                        res.send({message:"book details updated"});
+                    }
+                });
+                issueCollectionObj.updateMany({ bid : req.body.bookid },{ $set: { "bid" : req.body.bookid1} },(err,succ)=>{if(err) console.log(err);});
+                returnCollectionObj.updateMany({ bid : req.body.bookid },{ $set: { "bid" : req.body.bookid1} },(err,succ)=>{if(err) console.log(err);});
+        }
+        else{
+            res.send({message:"book not found"});
+        }
+    });
+
+});      
+
+adminApp.put('/edituid',(req,res)=>{
+    var userCollectionObj=dbo.getDb().usercollectionobj;
+    var issueCollectionObj=dbo.getDb().issuecollectionobj;
+    var returnCollectionObj=dbo.getDb().returncollectionobj;
+    var bookrequestsCollectionObj=dbo.getDb().bookrequestscollectionobj; 
+    userCollectionObj.findOne({userid:req.body.userid},(err,obj)=>{
+        if(err)
+        {
+            console.log("error");
+        }
+        else if(obj!=null)
+        {
+            userCollectionObj.updateOne( { userid : req.body.userid },
+                { $set: { "userid" : req.body.userid1} },(err,succ)=>{
+                    if(err)
+                    {
+                        res.send({message:"error in updation"});
+                    }
+                    else{
+                        res.send({message:"user details updated"});
+                    }
+                });
+                issueCollectionObj.updateMany({ userid : req.body.userid },{ $set: { "userid" : req.body.userid1} },(err,succ)=>{if(err) console.log(err);});
+                returnCollectionObj.updateMany({ userid : req.body.userid },{ $set: { "userid" : req.body.userid1} },(err,succ)=>{if(err) console.log(err);});
+                bookrequestsCollectionObj.updateMany({ userid : req.body.userid },{ $set: { "userid" : req.body.userid1} },(err,succ)=>{if(err) console.log(err);});
+        }
+        else{
+            res.send({message:"user not found"});
         }
     });
 
@@ -436,6 +558,7 @@ adminApp.get('/getissuedetails',(req,res)=>{
                     {
                         console.log("error");
                     }
+                    else if(userObjFromDb==null){issuedetailsObjFromDB[i].username=null;}
                     else{
                    
                         issuedetailsObjFromDB[i].username=userObjFromDb.username;
@@ -445,6 +568,10 @@ adminApp.get('/getissuedetails',(req,res)=>{
                     if(err)
                     {
                         console.log("error");
+                    }
+                    else if(bookObjFromDb==null){
+                        issuedetailsObjFromDB[i].bookname=null;
+                        issuedetailsObjFromDB[i].Author=null;
                     }
                     else{
                    
@@ -480,8 +607,10 @@ adminApp.get('/getissuereturndetails',(req,res)=>{
                 userCollectionObj.findOne({userid:issuedetailsObjFromDB[i].userid},(err,userObjFromDb)=>{
                     if(err)
                     {
+                        
                         console.log("error");
                     }
+                    else if(userObjFromDb==null){issuedetailsObjFromDB[i].username=null;}
                     else{
                    
                         issuedetailsObjFromDB[i].username=userObjFromDb.username;
@@ -491,6 +620,10 @@ adminApp.get('/getissuereturndetails',(req,res)=>{
                     if(err)
                     {
                         console.log("error");
+                    }
+                    else if(bookObjFromDb==null){
+                        issuedetailsObjFromDB[i].bookname=null;
+                        issuedetailsObjFromDB[i].Author=null;
                     }
                     else{
                    

@@ -26,13 +26,17 @@ bookobjstatus:boolean=false;
     this.bookobjstatus=true;}
     else{
     this.bookid='';
-    alert("enter correct book number");
+    Swal.fire({
+      icon: 'error',
+      text: 'Enter correct book no!',
+     
+    });  
   }
   });}
   else{
     Swal.fire({
       icon: 'error',
-      title: 'Fill all details!',
+      text: 'Fill all details!',
      
     });  
   }
@@ -54,7 +58,7 @@ bookobjstatus:boolean=false;
        else{
         Swal.fire({
           icon: 'error',
-          title: res["message"]
+          text: res["message"]
         });  
        }
      });
@@ -63,11 +67,75 @@ bookobjstatus:boolean=false;
    else{
     Swal.fire({
       icon: 'error',
-      title: 'Fill all details!',
+      text: 'Fill all details!',
      
     });  
    }
   }
+  /*************/
+  editbid(obj)
+ {
+   if(this.isvalid(obj)){
+     this.hc.put('admin/editbid',obj).subscribe((res)=>{
+       if(res["message"]=="book details updated")
+       {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Book details edited Successfully',
+          showConfirmButton: false,
+          timer: 1500
+        });
+       }
+       else{
+        Swal.fire({
+          icon: 'error',
+          text: res["message"]
+        });  
+       }
+     });
+       this.bookobjstatus=false;  
+   }
+   else{
+    Swal.fire({
+      icon: 'error',
+      text: 'Fill all details!',
+     
+    });  
+   }
+  }
+  /****************************************** */
+  editbno(obj)
+ {
+   if(this.isvalid(obj)){
+     this.hc.put('admin/editbno',obj).subscribe((res)=>{
+       if(res["message"]=="book details updated")
+       {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Book details edited Successfully',
+          showConfirmButton: false,
+          timer: 1500
+        });
+       }
+       else{
+        Swal.fire({
+          icon: 'error',
+          text: res["message"]
+        });  
+       }
+     });
+       this.bookobjstatus=false;  
+   }
+   else{
+    Swal.fire({
+      icon: 'error',
+      text: 'Fill all details!',
+     
+    });  
+   }
+  }/************************************** */
     delswalbook(obj){
         if(this.isvalid(obj)){
         Swal.fire({
@@ -93,7 +161,7 @@ bookobjstatus:boolean=false;
       else{
         Swal.fire({
           icon: 'error',
-          title: 'Fill all details!',
+          text: 'Fill all details!',
          
         });  
       }
@@ -114,12 +182,63 @@ bookobjstatus:boolean=false;
      else{
       Swal.fire({
         icon: 'error',
-        title: res["message"]
+        text: res["message"]
       }); 
      }
     }));
   }     
+/************************************************************************ */
+deltswalbook(obj){
+  if(this.isvalid(obj)){
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do You ant to delete total set of Books-'+obj["ISBNnumber"] +'!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, Delete All!',
+    cancelButtonText: 'No, back'
+  }).then((result) => {
+    if (result.value) {
+     this.deltbook(obj);
 
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+    Swal.fire(
+      'Cancelled',
+      'books not deleted :)',
+      'error'
+    )
+    }
+  })
+}
+else{
+  Swal.fire({
+    icon: 'error',
+    text: 'Fill all details!',
+   
+  });  
+}
+}
+deltbook(obj)
+{
+this.hc.delete(`/admin/deletebook/${obj['ISBNnumber']}`).subscribe((res=>{
+if(res["message"]=="book deleted")
+{
+Swal.fire({
+  icon: 'success',
+  title: 'Success!',
+  text: 'Book deleted Successfully',
+  showConfirmButton: false,
+  timer: 1500
+});
+}
+else{
+Swal.fire({
+  icon: 'error',
+  text: res["message"]
+}); 
+}
+}));
+}     
 
  isvalid(obj)
  {

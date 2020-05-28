@@ -23,7 +23,7 @@
 #headinglabel
 {
   margin:40px;
-  font-size: 10mm;
+  font-size: 7mm;
   font-weight: 350;
   font-family: "Roboto";
   color: #6d7fcc;
@@ -102,7 +102,7 @@
         width:50%;
       }
 
-      #buttonsubmit{
+      button{
         background: rgb(148, 163, 223);
         border:0;
         color: rgb(255, 255, 255);
@@ -119,16 +119,21 @@
         border-radius: 2px;
         outline: none;
     }
-    
-    #buttonsubmit:active{
+   
+    button:active{
         background: #6d7fcc;
         outline: none;
     }
     
-    #buttonsubmit:hover{
+    button:hover{
         background: #6d7fcc;
         color: #FFF;
         -webkit-transition: all 0.4s;
         transition: all 0.4s;
     }
-    
+    hr {
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+      border: 0;
+      border-top: 2px solid rgba(0, 0, 0, 0.1);
+    }

@@ -52,7 +52,7 @@
 #headinglabel
 {
   margin:40px;
-  font-size: 10mm;
+  font-size: 7mm;
   font-weight: 350;
   font-family: "Roboto";
   color: #6d7fcc;
@@ -160,4 +160,9 @@
         -webkit-transition: all 0.4s;
         transition: all 0.4s;
     }
-    
+    hr {
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+      border: 0;
+      border-top: 2px solid rgba(0, 0, 0, 0.1);
+    }
