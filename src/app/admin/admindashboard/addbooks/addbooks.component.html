@@ -1,46 +1,81 @@
-<div class="jumbotron jumbotron-fluid shadow rounded-sm bg-light pt-3" style="width:100%;">
-    <div>
-        <p id="headinglabel">Add Book</p>
-    </div>
+<div class="pt-5 bg-light rounded shadow">
+  <div style="text-align: center;">
+    <p id="headinglabel">Add Books</p>
+  </div>
+  <ul id="myTab" role="tablist" class="nav nav-tabs nav-pills with-arrow lined flex-column flex-sm-row text-center">
+    <li class="nav-item flex-sm-fill">
+      <a id="edit-tab" data-toggle="tab" data-target="#edit" role="tab" aria-controls="edit" aria-selected="true" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 active">Add a New Book</a>
+    </li>
+    <li class="nav-item flex-sm-fill">
+      <a id="del-tab" data-toggle="tab" data-target="#del" role="tab" aria-controls="del" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0">Add to Existing Book</a>
+    </li>
+  </ul>
+  <div id="myTabContent" class="tab-content">
+  <div id="edit" role="tabpanel" aria-labelledby="edit-tab" class="tab-pane py-5 fade show active">
     <form #ref="ngForm" (ngSubmit)="submitForm(ref.value);ref.reset()">
-        <div class="row">
-            <div class="col-6-sm"> 
-                <div class="form-group">      
-                    <input class="inputMaterial bg-light" type="text" name="ISBNnumber" required  ngModel>
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label class="label1">Book No</label>
-                  </div>
-                  <div class="form-group">      
-                    <input class="inputMaterial bg-light" type="text" name="ids" required ngModel>
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label class="label1">Enter Book Ids</label>
-                  </div>
-                  <div class="form-group">      
-                    <input class="inputMaterial bg-light" type="text" name="publisher" required ngModel>
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label class="label1">Publisher</label>
-                  </div>
-            </div>
-            <div class="col-6-sm">
+      <div class="row">
+          <div class="col-6-sm"> 
               <div class="form-group">      
-                <input class="inputMaterial bg-light" type="text" name="bookname" required ngModel>
-                <span class="highlight"></span>
-                <span class="bar"></span>
-                <label class="label1">Title</label>
-              </div>
+                  <input class="inputMaterial bg-light" type="text" name="ISBNnumber" required  ngModel>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label class="label1">Book No</label>
+                </div>
                 <div class="form-group">      
-                    <input class="inputMaterial bg-light" type="text" name="Author" required  ngModel>
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label class="label1">Author</label>
-                  </div>
-                  
+                  <input class="inputMaterial bg-light" type="text" name="ids" required ngModel>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label class="label1">Enter Book Ids</label>
+                </div>
+                <div class="form-group">      
+                  <input class="inputMaterial bg-light" type="text" name="publisher" required ngModel>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label class="label1">Publisher</label>
+                </div>
+          </div>
+          <div class="col-6-sm">
+            <div class="form-group">      
+              <input class="inputMaterial bg-light" type="text" name="bookname" required ngModel>
+              <span class="highlight"></span>
+              <span class="bar"></span>
+              <label class="label1">Title</label>
             </div>
-        </div>
-        <button id="buttonsubmit" type="submit">Add Book</button>
-      </form>
+              <div class="form-group">      
+                  <input class="inputMaterial bg-light" type="text" name="Author" required  ngModel>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label class="label1">Author</label>
+                </div>
+                
+          </div>
+      </div>
+      <button id="buttonsubmit" type="submit">Add Book</button>
+    </form>
 </div>
+  <div id="del" role="tabpanel" aria-labelledby="del-tab" class="tab-pane py-5 fade">
+   
+    <form #ref1="ngForm" (ngSubmit)="submitForm1(ref1.value);ref1.reset()">
+      <div class="row">
+          <div class="col-6-sm"> 
+              <div class="form-group">      
+                  <input class="inputMaterial bg-light" type="text" name="ISBNnumber" required  ngModel>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label class="label">Book No</label>
+                </div>
+                <div class="form-group">      
+                  <input class="inputMaterial bg-light" type="text" name="ids" required ngModel>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label class="label">Enter Book Ids</label>
+                </div>
 
+              </div>
+            </div>
+            <button id="buttonsubmit" type="submit">Add Bookids to Book </button>
+          </form>
+
+</div>
+</div>
+</div>

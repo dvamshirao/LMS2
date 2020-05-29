@@ -39,6 +39,17 @@
             </div>
           </div>
       </div>
+
+      <div class="jumbotron jumbotron-fluid shadow rounded-sm bg-white mt-3" style="width: 100%;">
+        <div>
+          <p id="headinglabel">Export-Import Data!</p> 
+        </div>
+        <div class="row">
+          <div class="col-6-sm m-1"><button id="buttonsubmit1" type="submit">Export Data</button></div>
+          <div class="col-6-sm m-1"><button id="buttonsubmit2" type="submit">Import Data</button></div>
+        </div>
+      </div>
+
   </div>
     <div id="del" role="tabpanel" aria-labelledby="del-tab" class="tab-pane fade">
       <div class="card rounded shadow border-0 bg-light">
@@ -48,11 +59,8 @@
                 <thead>
                   <tr>
                     <th>User Id</th>
-                    <th>User Name</th>
                     <th>Book No</th>
                     <th>Book Id</th>
-                    <th>Book Title</th>
-                    <th>Author</th>
                     <th>Issue Date</th>
                     <th>Return Date</th>
                   </tr>
@@ -60,11 +68,8 @@
                 <tbody>
                   <tr *ngFor="let obj of this.returnissueObj">
                     <td>{{obj.userid}}</td>
-                    <td>{{obj.username}}</td>
                     <td>{{obj.ISBNnumber}}</td>
                     <td>{{obj.bid}}</td>
-                    <td>{{obj.bookname}}</td>
-                    <td>{{obj.Author}}</td>
                     <td>{{obj.dateofissue}}</td>
                     <td>{{obj.returndate}}</td>
                   </tr>
@@ -73,6 +78,17 @@
             </div>
           </div>
       </div>
+
+      <div class="jumbotron jumbotron-fluid shadow rounded-sm bg-white mt-3" style="width: 100%;">
+        <div>
+          <p id="headinglabel">Export-Import Data!</p> 
+        </div>
+        <div class="row">
+          <div class="col-6-sm m-1"><button id="buttonsubmit1" type="submit">Export Data</button></div>
+          <div class="col-6-sm m-1"><button id="buttonsubmit2" type="submit">Import Data</button></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

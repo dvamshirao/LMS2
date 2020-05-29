@@ -17,7 +17,7 @@ export class AppComponent implements OnInit{
   ngOnInit() {
     (function($) {
       "use strict"; // Start of use strict
-    
+    /*
       // Smooth scrolling using jQuery easing
       $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function() {
         if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
@@ -27,11 +27,11 @@ export class AppComponent implements OnInit{
             $('html, body').animate({
               scrollTop: (target.offset().top - 72)
             }, 1000, "easeInOutExpo");
-            return false;
+            return false; 
           }
         }
       });
-    
+    */
       // Closes responsive menu when a scroll trigger link is clicked
       $('.js-scroll-trigger').click(function() {
         $('.navbar-collapse').collapse('hide');
@@ -57,21 +57,21 @@ export class AppComponent implements OnInit{
     $(window).scroll(navbarCollapse);
     navbarCollapse();
     
-      // Magnific popup calls
-      $('#portfolio').magnificPopup({
-        delegate: 'a',
-        type: 'image',
-        tLoading: 'Loading image #%curr%...',
-        mainClass: 'mfp-img-mobile',
-        gallery: {
-          enabled: true,
-          navigateByImgClick: true,
-          preload: [0, 1]
-        },
-        image: {
-          tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
-        }
-      });
+    $('#portfolio').magnificPopup({
+      delegate: 'a',
+      type: 'image',
+      tLoading: 'Loading image #%curr%...',
+      mainClass: 'mfp-img-mobile',
+      gallery: {
+        enabled: true,
+        navigateByImgClick: true,
+        preload: [0, 1]
+      },
+      image: {
+        tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
+      }
+    });
+  
     
     })(jQuery); // End of use strict
    
@@ -80,6 +80,9 @@ export class AppComponent implements OnInit{
       this.ls.adminLoginStatus=false;
       this.ls.doLogout();
     },0);
+  }
+  scrollToElement($element): void {
+    $element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
   submitForm(dataObj)
   {

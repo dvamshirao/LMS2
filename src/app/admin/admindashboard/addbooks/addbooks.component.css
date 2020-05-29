@@ -1,8 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500);
 #headinglabel
 {
-  margin:40px;
-  font-size: 10mm;
+  margin-bottom:40px;
+  font-size: 7mm;
   font-weight: 350;
   font-family: "Roboto";
   color: #6d7fcc;
@@ -99,4 +99,21 @@
         -webkit-transition: all 0.4s;
         transition: all 0.4s;
     }
- 
+    .lined .nav-link {
+      border: none;
+      border-bottom: 3px solid transparent;
+    }
+    
+    .lined .nav-link:hover {
+      border: none;
+      border-bottom: 3px solid transparent;
+    }
+    
+    .lined .nav-link.active {
+      background: none;
+      color: #6d7fcc;
+      border-color: #6d7fcc;
+    }
+    .nav-pills .nav-link {
+      color: #999;
+    }

@@ -23,7 +23,9 @@ bookobjstatus:boolean=false;
     this.hc.get(`/admin/admindashboard/circulation/issuefindbook/${this.bookid}`).subscribe((objOfres:object)=>{
     this.bookObj=objOfres["data"];
     if (this.bookObj!=null){
-    this.bookobjstatus=true;}
+    this.bookobjstatus=true;
+    this.editbuttonstatus=true;
+  }
     else{
     this.bookid='';
     Swal.fire({
@@ -54,6 +56,8 @@ bookobjstatus:boolean=false;
           showConfirmButton: false,
           timer: 1500
         });
+        this.bookobjstatus=false;
+        this.editbuttonstatus=false;
        }
        else{
         Swal.fire({

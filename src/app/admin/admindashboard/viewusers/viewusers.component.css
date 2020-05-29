@@ -1,2 +1,39 @@
 @import url('https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css');
 
+button{
+    background: rgb(148, 163, 223);
+    border:0;
+    color: rgb(255, 255, 255);
+    padding:10px;
+    font-size: 16px;
+    font-weight: 300;
+    width:330px;
+    margin-left: 40px;
+    display:block;
+    cursor:pointer;
+    -webkit-transition: all 0.4s;
+    transition: all 0.4s;
+    border-radius: 2px;
+    outline: none;
+}
+
+button:active{
+    background: #6d7fcc;
+    outline: none;
+}
+
+button:hover{
+    background: #6d7fcc;
+    color: #FFF;
+    -webkit-transition: all 0.4s;
+    transition: all 0.4s;
+}
+#headinglabel
+{
+  margin-left:60px;
+  font-size: 7mm;
+  font-weight: 350;
+  font-family: "Roboto";
+  color: #6d7fcc;
+  width: 100%;
+}

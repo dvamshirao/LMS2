@@ -71,7 +71,7 @@
         width:50%;
       }
 
-      #buttonsubmit{
+      button{
         background: rgb(148, 163, 223);
         border:0;
         color: rgb(255, 255, 255);
@@ -88,12 +88,12 @@
         outline: none;
     }
     
-    #buttonsubmit:active{
+    button:active{
         background: #6d7fcc;
         outline: none;
     }
     
-    #buttonsubmit:hover{
+    button:hover{
         background: #6d7fcc;
         color: #FFF;
         -webkit-transition: all 0.4s;

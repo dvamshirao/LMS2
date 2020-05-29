@@ -264,10 +264,34 @@ adminApp.post('/return',(req,res)=>{
         }
     });
 });
+
 adminApp.post('/bookregister',(req,res)=>{
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
-    //console.log(req.body);
-    //console.log(req.params);
+    bookCollectionObj.findOne({ISBNnumber:req.body.ISBNnumber},(err,bookObjFromDB)=>{
+        if(err)
+        {
+            console.log('error in register',err);
+        }
+        else if(bookObjFromDB!=null){
+            res.send({message:"book already exists"});
+        }
+        else{
+            bookCollectionObj.insertOne(req.body,(err,success)=>{
+                if(err)
+                {
+                    console.log("error");
+                }
+                else{
+                    res.send({message:"book registered succsessfully"});
+                }
+            })
+        }
+    });
+});
+
+
+adminApp.post('/bookadd',(req,res)=>{
+    var bookCollectionObj=dbo.getDb().bookcollectionobj;
     bookCollectionObj.findOne({ISBNnumber:req.body.ISBNnumber},(err,bookObjFromDB)=>{
         if(err)
         {
@@ -287,16 +311,8 @@ adminApp.post('/bookregister',(req,res)=>{
             res.send({message:"book added to existed isbc"});
         }
         else{
-           // console.log("entered");
-            bookCollectionObj.insertOne(req.body,(err,success)=>{
-                if(err)
-                {
-                    console.log("error");
-                }
-                else{
-                    res.send({message:"book registered succsessfully"});
-                }
-            })
+            res.send({message:"book doesnot exists!"});
+           
         }
     
 
@@ -332,24 +348,36 @@ adminApp.put('/edituser',(req,res)=>{
 
 adminApp.delete('/deleteuser/:userid',(req,res)=>{
     var userCollectionObj=dbo.getDb().usercollectionobj;
+    var issueCollectionObj=dbo.getDb().issuecollectionobj;
     userCollectionObj.findOne({userid:req.params.userid},(err,obj)=>{
         if(err)
         {
             console.log("error");
         }
         else if(obj!=null)
-        {
-            userCollectionObj.deleteOne(({"userid":req.params.userid}),(err,delobj)=>{
+        { 
+            issueCollectionObj.findOne({userid:req.params.userid},(err,issueObjFromDB)=>{
                 if(err)
                 {
-                    res.send({message:"error in deletion"}); 
+                    console.log("error");
                 }
-                else
+                else if(issueObjFromDB!=null)
                 {
-                    res.send({message:"user deleted"}); 
+                    res.send({message:"Return/Delete the books Issued to User"});
                 }
-            });
-
+                else{
+                    userCollectionObj.deleteOne(({"userid":req.params.userid}),(err,delobj)=>{
+                        if(err)
+                        {
+                            res.send({message:"error in deletion"}); 
+                        }
+                        else
+                        {
+                            res.send({message:"user deleted"}); 
+                        }
+                    });
+                }
+            })
         }
         else{
             res.send({message:"user not found"});
@@ -359,6 +387,7 @@ adminApp.delete('/deleteuser/:userid',(req,res)=>{
 
 adminApp.delete('/deletebook/:bookno',(req,res)=>{
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
+    var issueCollectionObj=dbo.getDb().issuecollectionobj;
     bookCollectionObj.findOne({ISBNnumber:req.params.bookno},(err,obj)=>{
         if(err)
         {
@@ -376,6 +405,7 @@ adminApp.delete('/deletebook/:bookno',(req,res)=>{
                     res.send({message:"book deleted"}); 
                 }
             });
+            issueCollectionObj.deleteMany({ ISBNnumber:req.params.bookno } ,(err,succ)=>{if(err) console.log(err);});
 
         }
         else{
@@ -508,6 +538,7 @@ adminApp.put('/edituid',(req,res)=>{
 });          
 
 adminApp.put('/deletebookid',(req,res)=>{
+    var issueCollectionObj=dbo.getDb().issuecollectionobj;
     console.log("in admin api:",req.body.ISBNnumber,req.body.bookid);
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
     bookCollectionObj.findOne({ISBNnumber:req.body.ISBNnumber},(err,obj)=>{
@@ -530,6 +561,7 @@ adminApp.put('/deletebookid',(req,res)=>{
                     res.send({message:"book deleted"}); 
                 }
             });
+            issueCollectionObj.deleteOne({ bid : req.body.bookid } ,(err,succ)=>{if(err) console.log(err);});
         }
         else{
             res.send({message:"book not found"});
@@ -572,6 +604,10 @@ adminApp.get('/getissuedetails',(req,res)=>{
                     else if(bookObjFromDb==null){
                         issuedetailsObjFromDB[i].bookname=null;
                         issuedetailsObjFromDB[i].Author=null;
+                        if(i==issuedetailsObjFromDB.length-1)
+                        {
+                        res.send({message:"all recs",data:issuedetailsObjFromDB});
+                        }  
                     }
                     else{
                    
@@ -579,7 +615,7 @@ adminApp.get('/getissuedetails',(req,res)=>{
                         issuedetailsObjFromDB[i].Author=bookObjFromDb.Author;
                         if(i==issuedetailsObjFromDB.length-1)
                         {
-                        res.send({message:"all recs",data:issuedetailsObjFromDB});
+                        res.send({message:"Records found",data:issuedetailsObjFromDB});
                         }  
                     }
                 });
@@ -589,53 +625,20 @@ adminApp.get('/getissuedetails',(req,res)=>{
 });
 
 adminApp.get('/getissuereturndetails',(req,res)=>{
-    var issueCollectionObj=dbo.getDb().returncollectionobj;
-    var bookCollectionObj=dbo.getDb().bookcollectionobj;
-    var userCollectionObj=dbo.getDb().usercollectionobj;
-    issueCollectionObj.find({}).toArray( (err,issuedetailsObjFromDB)=>{
+    var returnCollectionObj=dbo.getDb().returncollectionobj;
+    returnCollectionObj.find({}).toArray( (err,returndetailsObjFromDB)=>{
         if(err)
         {
-            console.log("error");
+            console.log(err);
+        }
+        else if(returndetailsObjFromDB==null)
+        {
+            res.send({message:"Records not Found"});
+            
         }
         else
         {
-            var issuedetailsObjFromDB= JSON.parse(JSON.stringify(issuedetailsObjFromDB));
-            var obj=[];
-            var bool=false;
-            for(let i=0;i<issuedetailsObjFromDB.length;i++)
-            {
-                userCollectionObj.findOne({userid:issuedetailsObjFromDB[i].userid},(err,userObjFromDb)=>{
-                    if(err)
-                    {
-                        
-                        console.log("error");
-                    }
-                    else if(userObjFromDb==null){issuedetailsObjFromDB[i].username=null;}
-                    else{
-                   
-                        issuedetailsObjFromDB[i].username=userObjFromDb.username;
-                    }
-                });
-                bookCollectionObj.findOne({ISBNnumber:issuedetailsObjFromDB[i].ISBNnumber},(err,bookObjFromDb)=>{
-                    if(err)
-                    {
-                        console.log("error");
-                    }
-                    else if(bookObjFromDb==null){
-                        issuedetailsObjFromDB[i].bookname=null;
-                        issuedetailsObjFromDB[i].Author=null;
-                    }
-                    else{
-                   
-                        issuedetailsObjFromDB[i].bookname=bookObjFromDb.bookname;
-                        issuedetailsObjFromDB[i].Author=bookObjFromDb.Author;
-                        if(i==issuedetailsObjFromDB.length-1)
-                        {
-                        res.send({message:"all recs",data:issuedetailsObjFromDB});
-                        }  
-                    }
-                });
-            }
+            res.send({message:"Records found",data:returndetailsObjFromDB});
         }
     })
 });

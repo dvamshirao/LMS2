@@ -106,7 +106,7 @@ submitForm(obj)
     }
     else{
       this.issuedate=this.issuedate;
-      Swal.fire({
+      Swal.fire({ 
         icon: 'error',
         text: 'Fill all details!',
        

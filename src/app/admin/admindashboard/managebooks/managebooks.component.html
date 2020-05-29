@@ -1,94 +1,96 @@
-<div class="p-5 bg-light rounded shadow mb-5">
-    <!-- Lined tabs-->
+<div class="pt-5 bg-light rounded shadow mb-5">
+  <!-- Lined tabs-->
+  <div style="text-align: center;">
+    <p id="headinglabel">Manage Books</p>
+  </div>
+  <ul id="myTab" role="tablist" class="nav nav-tabs nav-pills with-arrow lined flex-column flex-sm-row text-center">
+    <li class="nav-item flex-sm-fill">
+      <a id="edit-tab" data-toggle="tab" data-target="#edit" role="tab" aria-controls="edit" aria-selected="true" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 active">Edit </a>
+    </li>
+    <li class="nav-item flex-sm-fill">
+      <a id="del-tab" data-toggle="tab" data-target="#del" role="tab" aria-controls="del" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0">Delete </a>
+    </li>
+  </ul>
+  <div id="myTabContent" class="tab-content">
+
+  <div id="edit" role="tabpanel" aria-labelledby="edit-tab" class="tab-pane fade p-5 show active">
+
+
     <ul id="myTab" role="tablist" class="nav nav-tabs nav-pills with-arrow lined flex-column flex-sm-row text-center">
       <li class="nav-item flex-sm-fill">
-        <a id="edit-tab" data-toggle="tab" data-target="#edit" role="tab" aria-controls="edit" aria-selected="true" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 active">Edit Book</a>
+        <a id="edit1-tab" data-toggle="tab" data-target="#edit1" role="tab" aria-controls="edit1" aria-selected="true" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 active">Book Details </a>
       </li>
       <li class="nav-item flex-sm-fill">
-        <a id="del-tab" data-toggle="tab" data-target="#del" role="tab" aria-controls="del" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0">Delete Book</a>
+        <a id="edit2-tab" data-toggle="tab" data-target="#edit2" role="tab" aria-controls="edit2" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0">Book ID </a>
+      </li>
+      <li class="nav-item flex-sm-fill">
+        <a id="edit3-tab" data-toggle="tab" data-target="#edit3" role="tab" aria-controls="edit3" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0">Book No </a>
       </li>
     </ul>
     <div id="myTabContent" class="tab-content">
-
-    <div id="edit" role="tabpanel" aria-labelledby="edit-tab" class="tab-pane fade pt-3 show active">
-      <!------------------------------------------------------>
-      <div>
-        <div>
-          <p id="headinglabel">Edit Book Details</p>
-      </div>
-
-            <form #ref="ngForm" (ngSubmit)="editbook(ref.value);ref.reset()">
-                <div class="row">
-                    <div class="col-6-sm">   
-                            <div class="form-group">      
-                                <input class="inputMaterial bg-light" type="text" name="ISBNnumber" (keydown.tab)="getbookid($event.target.value)"  required  ngModel>
-                                <span class="highlight"></span>
-                                <span class="bar"></span>
-                                <label class="label">Book No</label>
-                              </div>
-                              <div class="form-group" *ngIf="bookobjstatus">      
-                                <input class="inputMaterial bg-light" type="text" name="publisher" required [(ngModel)]="bookObj.publisher">
-                                <span class="highlight"></span>
-                                <span class="bar"></span>
-                                <label class="label">Publisher</label>
-                              </div>
-                    </div>
-                    <div class="col-6-sm">
-                        <div class="form-group" *ngIf="bookobjstatus">      
-                            <input class="inputMaterial bg-light" type="text" name="bookname" required [(ngModel)]="bookObj.bookname">
-                            <span class="highlight"></span>
-                            <span class="bar"></span>
-                            <label class="label">Title</label>
-                          </div>
-                            <div class="form-group" *ngIf="bookobjstatus">      
-                                <input class="inputMaterial bg-light" type="text" name="Author" required  [(ngModel)]="bookObj.Author">
-                                <span class="highlight"></span>
-                                <span class="bar"></span>
-                                <label class="label">Author</label>
-                              </div>
-                    </div>
-                </div>
-                <button id="buttonsubmit1" type="submit" ><span class="material-icons" style="display: inline-flex; vertical-align: top;">create</span>Edit Book Details</button>
-              </form>
-            </div>
-            <hr/>
-    <!--------------------------------------------------------------------------------------------------------------------------------->
-    <div>
+  
+    <div id="edit1" role="tabpanel" aria-labelledby="edit1-tab" class="tab-pane fade py-5 show active">
+      <form #ref="ngForm" (ngSubmit)="editbook(ref.value);ref.reset()">
         <div class="row">
             <div class="col-6-sm">   
-              <div>
-                <p id="headinglabel">Edit Particular BookId</p>
+                    <div class="form-group">      
+                        <input class="inputMaterial bg-light" type="text" name="ISBNnumber" (keydown.enter)="getbookid($event.target.value)"  required  ngModel>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">Book No</label>
+                      </div>
+                      <div class="form-group" *ngIf="bookobjstatus">      
+                        <input class="inputMaterial bg-light" type="text" name="publisher" required [(ngModel)]="bookObj.publisher">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">Publisher</label>
+                      </div>
             </div>
-
-            <form #refeditbid="ngForm" (ngSubmit)="editbid(refeditbid.value);refeditbid.reset()">
-              <div class="form-group">      
-                <input class="inputMaterial bg-light" type="text" name="ISBNnumber" required  ngModel>
-                <span class="highlight"></span>
-                <span class="bar"></span>
-                <label class="label">Book No</label>
-              </div>
-            <div class="form-group">      
-              <input class="inputMaterial bg-light" type="text" name="bookid" required ngModel>
-              <span class="highlight"></span>
-              <span class="bar"></span>
-              <label class="label">Enter Old Book Id</label>
+            <div class="col-6-sm">
+                <div class="form-group" *ngIf="bookobjstatus">      
+                    <input class="inputMaterial bg-light" type="text" name="bookname" required [(ngModel)]="bookObj.bookname">
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="label">Title</label>
+                  </div>
+                    <div class="form-group" *ngIf="bookobjstatus">      
+                        <input class="inputMaterial bg-light" type="text" name="Author" required  [(ngModel)]="bookObj.Author">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">Author</label>
+                      </div>
             </div>
-            <div class="form-group">      
-              <input class="inputMaterial bg-light" type="text" name="bookid1" required ngModel>
-              <span class="highlight"></span>
-              <span class="bar"></span>
-              <label class="label">Enter New Book Id</label>
-            </div>
-            <button id="buttonsubmit2" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">create</span>Edit BookID</button>
-          </form>
         </div>
-      
-       <!------------------------------------------------------>
-      <div class="col-6-sm"> 
-        <div>
-          <p id="headinglabel">Edit Book No</p>
+        <button id="buttonsubmit1" type="submit" [disabled]="!editbuttonstatus"><span class="material-icons" style="display: inline-flex; vertical-align: top;">create</span>Edit Book Details</button>
+      </form>
+    </div>
+      <!--Edit1 tab close-->
+    <div id="edit2" role="tabpanel" aria-labelledby="edit2-tab" class="tab-pane fade py-5">
+      <form #refeditbid="ngForm" (ngSubmit)="editbid(refeditbid.value);refeditbid.reset()">
+        <div class="form-group">      
+          <input class="inputMaterial bg-light" type="text" name="ISBNnumber" required  ngModel>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="label">Book No</label>
+        </div>
+      <div class="form-group">      
+        <input class="inputMaterial bg-light" type="text" name="bookid" required ngModel>
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label class="label">Enter Old Book Id</label>
       </div>
+      <div class="form-group">      
+        <input class="inputMaterial bg-light" type="text" name="bookid1" required ngModel>
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label class="label">Enter New Book Id</label>
+      </div>
+      <button id="buttonsubmit2" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">create</span>Edit BookID</button>
+    </form>
 
+    </div>
+<!--Edit2 tab close-->
+    <div id="edit3" role="tabpanel" aria-labelledby="edit3-tab" class="tab-pane fade py-5">
       <form #refeditbno="ngForm" (ngSubmit)="editbno(refeditbno.value);refeditbno.reset()">
         <div class="form-group">      
           <input class="inputMaterial bg-light" type="text" name="ISBNnumber" required  ngModel>
@@ -104,50 +106,61 @@
       </div>
       <button id="buttonsubmit3" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">create</span>Edit BookNo</button>
     </form>
-        </div>
-      </div>
-  </div>
-       <!------------------------------------------------------>
     </div>
-  
-    <div id="del" role="tabpanel" aria-labelledby="del-tab" class="tab-pane fade pt-3">
-      <div>
-        <div>
-          <p id="headinglabel">Delete Particular Book</p>
-      </div>
-        <form #ref1="ngForm" (ngSubmit)="delswalbook(ref1.value);ref1.reset()">
-            <div class="form-group">      
-                <input class="inputMaterial bg-light" type="text" name="ISBNnumber" required  ngModel>
-                <span class="highlight"></span>
-                <span class="bar"></span>
-                <label class="label">Book No</label>
-            </div>
-                <div class="form-group">      
-                    <input class="inputMaterial bg-light" type="text" name="bookid" required ngModel>
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label class="label">Book Id</label>
-                  </div>
-                <button id="buttonsubmit4" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">delete</span>Delete Book</button>
-              </form>
-        </div>
-        <hr/>
-        <div>
-          <div>
-            <p id="headinglabel">Delete Total Book Set</p>
-        </div>
-          <form #refdel1="ngForm" (ngSubmit)="deltswalbook(refdel1.value);refdel1.reset()">
-            <div class="form-group">      
-                <input class="inputMaterial bg-light" type="text" name="ISBNnumber" required  ngModel>
-                <span class="highlight"></span>
-                <span class="bar"></span>
-                <label class="label">Book No</label>
-            </div>
-                <button id="buttonsubmit5" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">delete</span>Delete Total Set of Books</button>
-              </form>
-        </div>
+  <!--Edit3 tab close-->
     </div>
 
-    </div>
-    
+<!--Edit tab close-->
+
   </div>
+    
+  <div id="del" role="tabpanel" aria-labelledby="del-tab" class="tab-pane fade p-5">
+      
+    <ul id="myTab" role="tablist" class="nav nav-tabs nav-pills with-arrow lined flex-column flex-sm-row text-center">
+      <li class="nav-item flex-sm-fill">
+        <a id="del1-tab" data-toggle="tab" data-target="#del1" role="tab" aria-controls="del1" aria-selected="true" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 active">Book ID</a>
+      </li>
+      <li class="nav-item flex-sm-fill">
+        <a id="del2-tab" data-toggle="tab" data-target="#del2" role="tab" aria-controls="del2" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0">Total Book</a>
+      </li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+  
+      <div id="del1" role="tabpanel" aria-labelledby="del1-tab" class="tab-pane fade py-5 show active">
+        <form #refd1="ngForm" (ngSubmit)="delswalbook(refd1.value);refd1.reset()">
+          <div class="form-group">      
+              <input class="inputMaterial bg-light" type="text" name="ISBNnumber" required  ngModel>
+              <span class="highlight"></span>
+              <span class="bar"></span>
+              <label class="label">Book No</label>
+          </div>
+              <div class="form-group">      
+                  <input class="inputMaterial bg-light" type="text" name="bookid" required ngModel>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label class="label">Book Id</label>
+                </div>
+              <button id="buttonsubmit4" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">delete</span>Delete Book</button>
+            </form>
+      </div>
+        <!--del1 tab close-->
+      <div id="del2" role="tabpanel" aria-labelledby="del2-tab" class="tab-pane fade py-5">
+        <form #refdel1="ngForm" (ngSubmit)="deltswalbook(refdel1.value);refdel1.reset()">
+          <div class="form-group">      
+              <input class="inputMaterial bg-light" type="text" name="ISBNnumber" required  ngModel>
+              <span class="highlight"></span>
+              <span class="bar"></span>
+              <label class="label">Book No</label>
+          </div>
+              <button id="buttonsubmit5" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">delete</span>Delete Total Set of Books</button>
+            </form>
+      </div>
+  <!--del2 tab close-->
+      </div>
+
+    <!--Delete tab close-->
+  </div>
+
+  </div>
+
+</div>

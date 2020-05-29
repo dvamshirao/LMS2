@@ -17,6 +17,10 @@ export class RegisterService {
   {
     return this.hc.post('/admin/bookregister',bookObj);
   }
+  doRegistertest1(bookObj):Observable<any>
+  {
+    return this.hc.post('/admin/bookadd',bookObj);
+  }
   userRegister(userObj):Observable<any>
   {
     return this.hc.post('/admin/userRegister',userObj);

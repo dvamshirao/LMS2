@@ -42,7 +42,7 @@ export class ManageusersComponent implements OnInit {
   else{
     Swal.fire({
       icon: 'error',
-      title: 'Fill all details!',
+      text: 'Fill all details!',
      
     });  
   }
@@ -65,7 +65,7 @@ export class ManageusersComponent implements OnInit {
         else{
           Swal.fire({
             icon: 'error',
-            title: res["message"]
+            text: res["message"]
           });  
         }
       });
@@ -74,7 +74,7 @@ export class ManageusersComponent implements OnInit {
     else{
       Swal.fire({
         icon: 'error',
-        title: 'Fill all details!',
+        text: 'Fill all details!',
        
       });  
     }
@@ -133,7 +133,7 @@ delswaluser(obj){
 else{
   Swal.fire({
     icon: 'error',
-    title: 'Fill all details!',
+    text: 'Fill all details!',
    
   });  
 }
@@ -154,7 +154,7 @@ else{
       else{
         Swal.fire({
           icon: 'error',
-          title: res["message"]
+          text: res["message"]
         }); 
       }
      }));
