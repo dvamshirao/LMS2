@@ -1,0 +1,95 @@
+<div class="pt-5 bg-light rounded shadow">
+    <div>
+        <p id="headinglabel">Project Issue Details</p> 
+      </div>
+    <ul id="myTab" role="tablist" class="nav nav-tabs nav-pills with-arrow lined flex-column flex-sm-row text-center">
+      <li class="nav-item flex-sm-fill">
+        <a id="edit-tab" data-toggle="tab" data-target="#edit" role="tab" aria-controls="edit" aria-selected="true" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 active">Current Issue details</a>
+      </li>
+      <li class="nav-item flex-sm-fill">
+        <a id="del-tab" data-toggle="tab" data-target="#del" role="tab" aria-controls="del" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0">Issue-Return Log</a>
+      </li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+    <div id="edit" role="tabpanel" aria-labelledby="edit-tab" class="tab-pane fade show active">
+      <div class="card rounded shadow border-0 bg-light">
+        <div class="card-body rounded  bg-white">
+            <div class="table-responsive">
+              <table id="example1" style="width:100%" class="table table-striped table-bordered" *ngIf="this.temp1">
+                <thead>
+                  <tr>
+                    <th>User Id</th>
+                    <th>User Name</th>
+                    <th>Project Id</th>
+                    <th>Project Title</th>
+                    <th>Batch/Year</th>
+                    <th>category</th>
+                    <th>Issue Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let obj of this.issueObj">
+                    <td>{{obj.userid}}</td>
+                    <td>{{obj.username}}</td>
+                    <td>{{obj.projid}}</td>
+                    <td>{{obj.title}}</td>
+                    <td>{{obj.batch}}</td>
+                    <td>{{obj.category}}</td>
+                    <td>{{obj.dateofissue}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </div>
+
+      <div class="jumbotron jumbotron-fluid shadow rounded-sm bg-white mt-3" style="width: 100%;">
+        <div>
+          <p id="headinglabel">Export-Import Data!</p> 
+        </div>
+        <div class="row">
+          <div class="col-6-sm m-1"><button id="buttonsubmit1" type="submit">Export Data</button></div>
+          <div class="col-6-sm m-1"><button id="buttonsubmit2" type="submit">Import Data</button></div>
+        </div>
+      </div>
+
+  </div>
+    <div id="del" role="tabpanel" aria-labelledby="del-tab" class="tab-pane fade">
+      <div class="card rounded shadow border-0 bg-light">
+        <div class="card-body rounded  bg-white">
+            <div class="table-responsive">
+              <table id="example2" style="width:100%" class="table table-striped table-bordered" *ngIf="this.temp2">
+                <thead>
+                  <tr>
+                    <th>User Id</th>
+                    <th>Project Id</th>
+                    <th>Issue Date</th>
+                    <th>Return Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let obj of this.returnissueObj">
+                    <td>{{obj.userid}}</td>
+                    <td>{{obj.projid}}</td>
+                    <td>{{obj.dateofissue}}</td>
+                    <td>{{obj.returndate}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </div>
+
+      <div class="jumbotron jumbotron-fluid shadow rounded-sm bg-white mt-3" style="width: 100%;">
+        <div>
+          <p id="headinglabel">Export-Import Data!</p> 
+        </div>
+        <div class="row">
+          <div class="col-6-sm m-1"><button id="buttonsubmit1" type="submit">Export Data</button></div>
+          <div class="col-6-sm m-1"><button id="buttonsubmit2" type="submit">Import Data</button></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

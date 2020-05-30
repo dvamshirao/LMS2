@@ -16,7 +16,7 @@ temp: boolean=false;
     this.hc.get('/admin/admindashboard/manageusers/viewusers').subscribe((objOfres:object)=>{
       this.userObj=objOfres["data"];
       this.temp = true;
-     console.log("this is user obj",this.userObj);
+    // console.log("this is user obj",this.userObj);
      $(function() {
       $(document).ready(function() {
         $('#userexample').DataTable();

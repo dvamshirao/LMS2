@@ -99,6 +99,7 @@ adminApp.get('/admindashboard/circulation/issuefindbook/:bookid',(req,res)=>{
         }
     })
 });
+
 adminApp.get('/admindashboard/circulation/issuefinduser/:userid',(req,res)=>{
     var userCollectionObj=dbo.getDb().usercollectionobj;
    // console.log("in adminapi userid",req.params.userid1);
@@ -583,6 +584,7 @@ adminApp.get('/getissuedetails',(req,res)=>{
             var issuedetailsObjFromDB= JSON.parse(JSON.stringify(issuedetailsObjFromDB));
             var obj=[];
             var bool=false;
+            if(issuedetailsObjFromDB.length>0){
             for(let i=0;i<issuedetailsObjFromDB.length;i++)
             {
                 userCollectionObj.findOne({userid:issuedetailsObjFromDB[i].userid},(err,userObjFromDb)=>{
@@ -619,6 +621,9 @@ adminApp.get('/getissuedetails',(req,res)=>{
                         }  
                     }
                 });
+            }}
+            else{
+                res.send({message:"Records not found",data:issuedetailsObjFromDB});
             }
         }
     })
@@ -781,6 +786,376 @@ adminApp.get('/displaybookrequests',(req,res)=>{
 
     });
 })
+
+/********************************** */
+adminApp.get('/findprojid/:projid',(req,res)=>{
+    var projCollectionObj=dbo.getDb().projcollectionobj;
+    //console.log("in adminapi bookid",req.params.bookid);
+    projCollectionObj.findOne({projid:req.params.projid},(err,projObjFromDB)=>{
+        if(err)
+        {
+            console.log("error");
+        }
+        else if (projObjFromDB!=null)
+        { //console.log(bookObjFromDB);
+            res.send({message:"all recs of projects",data:projObjFromDB});
+        }
+        else{
+            res.send({message:"enter the project details again"});
+        }
+    })
+});
+
+adminApp.post('/addproj',(req,res)=>{
+    var projCollectionObj=dbo.getDb().projcollectionobj;
+    projCollectionObj.findOne({projid:req.body.projid},(err,projObjFromDB)=>{
+        if(err)
+        {
+            console.log('error in register',err);
+        }
+        else if(projObjFromDB!=null){
+            res.send({message:"project already exists"});
+        }
+        else{
+            projCollectionObj.insertOne(req.body,(err,success)=>{
+                if(err)
+                {
+                    console.log("error");
+                }
+                else{
+                    res.send({message:"project registered succsessfully"});
+                }
+            })
+        }
+    });
+});
+
+adminApp.put('/editproj',(req,res)=>{
+    var projCollectionObj=dbo.getDb().projcollectionobj;
+    projCollectionObj.findOne({projid:req.body.projid},(err,obj)=>{
+        if(err)
+        {
+            console.log("error");
+        }
+        else if(obj!=null)
+        {
+            projCollectionObj.updateOne(
+                { projid : req.body.projid },
+                { $set: { "title" : req.body.title , "batch" : req.body.batch ,"category" : req.body.category} },(err,succ)=>{
+                    if(err)
+                    {
+                        res.send({message:"error in updation"});
+                    }
+                    else{
+                        res.send({message:"project details updated"});
+                    }
+                });
+        }
+        else{
+            res.send({message:"project not found"});
+        }
+    });
+
+});      
+adminApp.put('/editpid',(req,res)=>{
+    var projCollectionObj=dbo.getDb().projcollectionobj;
+    var projissueCollectionObj=dbo.getDb().projissuecollectionobj;
+    var projreturnCollectionObj=dbo.getDb().projreturncollectionobj;
+    projCollectionObj.findOne({projid:req.body.projid},(err,obj)=>{
+        if(err)
+        {
+            console.log("error");
+        }
+        else if(obj!=null)
+        {
+            projCollectionObj.updateOne(
+                { projid : req.body.projid },
+                { $set: { "projid" : req.body.projid1} },(err,succ)=>{
+                    if(err)
+                    {
+                        res.send({message:"error in updation"});
+                    }
+                    else{
+                        res.send({message:"project details updated"});
+                    }
+                });
+                projissueCollectionObj.updateMany({ projid : req.body.projid },{ $set: { "projid" : req.body.projid1} },(err,succ)=>{if(err) console.log(err);});
+                projreturnCollectionObj.updateMany({ projid : req.body.projid },{ $set: { "projid" : req.body.projid1} },(err,succ)=>{if(err) console.log(err);});
+        }
+        else{
+            res.send({message:"project not found"});
+        }
+    });
+
+});          
+
+
+adminApp.delete('/deleteproj/:projid',(req,res)=>{
+    var projCollectionObj=dbo.getDb().projcollectionobj;
+    var projissueCollectionObj=dbo.getDb().projissuecollectionobj;
+    projCollectionObj.findOne({projid:req.params.projid},(err,obj)=>{
+        if(err)
+        {
+            console.log("error");
+        }
+        else if(obj!=null)
+        {
+           projCollectionObj.deleteOne(({"projid":req.params.projid}),(err,delobj)=>{
+                if(err)
+                {
+                    res.send({message:"error in deletion"}); 
+                }
+                else
+                {
+                    res.send({message:"project deleted"}); 
+                }
+            });
+            projissueCollectionObj.deleteOne({ projid:req.params.projid } ,(err,succ)=>{if(err) console.log(err);});
+
+        }
+        else{
+            res.send({message:"project not found"});
+        }
+    });
+});
+
+adminApp.get('/viewprojects',(req,res)=>{
+    var projCollectionObj=dbo.getDb().projcollectionobj;
+    projCollectionObj.find().toArray( (err,projObjFromDB)=>{
+        if(err)
+        {
+            console.log("error");
+        }
+        else
+        {
+            res.send({message:"all recs of projects",data:projObjFromDB});
+        }
+    })
+});
+
+adminApp.get('/getprojissuedetails',(req,res)=>{
+    var projissueCollectionObj=dbo.getDb().projissuecollectionobj;
+    var projCollectionObj=dbo.getDb().projcollectionobj;
+    var userCollectionObj=dbo.getDb().usercollectionobj;
+    projissueCollectionObj.find({}).toArray( (err,projissuedetailsObjFromDB)=>{
+        if(err)
+        {
+            console.log(err);
+        }
+        else if(projissuedetailsObjFromDB==null)
+        {res.send({message:"Records not Found"});}
+        else
+        {
+            var projissuedetailsObjFromDB= JSON.parse(JSON.stringify(projissuedetailsObjFromDB));
+            if(projissuedetailsObjFromDB.length>0){
+            for(let i=0;i<projissuedetailsObjFromDB.length;i++)
+            {
+                userCollectionObj.findOne({userid:projissuedetailsObjFromDB[i].userid},(err,userObjFromDb)=>{
+                    if(err)
+                    {
+                        console.log("error");
+                    }
+                    else if(userObjFromDb==null){projissuedetailsObjFromDB[i].username=null;}
+                    else{
+                   
+                        projissuedetailsObjFromDB[i].username=userObjFromDb.username;
+                    }
+                });
+                projCollectionObj.findOne({projid:projissuedetailsObjFromDB[i].projid},(err,projObjFromDb)=>{
+                    if(err)
+                    {
+                        console.log("error");
+                    }
+                    else if(projObjFromDb==null){
+                        projissuedetailsObjFromDB[i].title=null;
+                        projissuedetailsObjFromDB[i].batch=null;
+                        projissuedetailsObjFromDB[i].category=null;
+                        if(i==projissuedetailsObjFromDB.length-1)
+                        {
+                        res.send({message:"all recs",data:projissuedetailsObjFromDB});
+                        }  
+                    }
+                    else{
+                   
+                        projissuedetailsObjFromDB[i].title=projObjFromDb.title;
+                        projissuedetailsObjFromDB[i].batch=projObjFromDb.batch;
+                        projissuedetailsObjFromDB[i].category=projObjFromDb.category;
+                        if(i==projissuedetailsObjFromDB.length-1)
+                        {
+                        res.send({message:"Records found",data:projissuedetailsObjFromDB});
+                        }  
+                    }
+                });
+            }}
+            else{res.send({message:"Records not found",data:projissuedetailsObjFromDB}); }
+        }
+    });
+});
+
+adminApp.get('/getprojissuereturndetails',(req,res)=>{
+    var projreturnCollectionObj=dbo.getDb().projreturncollectionobj;
+    projreturnCollectionObj.find({}).toArray( (err,projreturndetailsObjFromDB)=>{
+        if(err)
+        {
+            console.log(err);
+        }
+        else if(projreturndetailsObjFromDB==null)
+        {
+            res.send({message:"Records not Found"});
+            
+        }
+        else
+        {
+            res.send({message:"Records found",data:projreturndetailsObjFromDB});
+        }
+    })
+});
+
+
+adminApp.post('/projissue',(req,res)=>{
+    var projCollectionObj=dbo.getDb().projcollectionobj;
+    var projissueCollectionObj=dbo.getDb().projissuecollectionobj;
+    var userCollectionObj=dbo.getDb().usercollectionobj;
+    //console.log(req.body);
+    //console.log(req.params);
+       projCollectionObj.findOne({projid:req.body.projid},(err,projObjFromDB)=>
+       {
+            if(err)
+            {
+                console.log('error in issue',err);
+            }
+            else if(projObjFromDB!=null)
+            {
+                userCollectionObj.findOne({userid:req.body.userid},(err,userObjFromDB)=>{
+                if(err)
+                {
+                    console.log("error");
+                }
+                else if(userObjFromDB!=null)
+                { 
+                    if(projObjFromDB.status==false)
+                    {
+                        projissueCollectionObj.insertOne(req.body,(err,success)=>{
+                            if(err)
+                            {
+                                console.log('error');;
+                            }
+                            else{
+                                res.send({message:"project issued"});
+                            }
+                        });
+                     projCollectionObj.updateOne({projid:req.body.projid},{$set:{"status":true}});
+                
+                 }
+                 else{
+                    res.send({message:"project is not available to issue"});
+                    }
+
+                }
+                else{
+                    res.send({message:"enter the user details again"}); }
+            });
+            }
+        else{
+            
+            res.send({message:"enter the project details again"});
+        }
+    })
+});
+adminApp.post('/projreturn',(req,res)=>{
+    var projissueCollectionObj=dbo.getDb().projissuecollectionobj;
+    var projreturnCollectionObj=dbo.getDb().projreturncollectionobj;
+    var projCollectionObj=dbo.getDb().projcollectionobj;
+   //console.log(req.body);
+    //console.log(req.params);
+    projissueCollectionObj.findOne({projid:req.body.projid},(err,projissueObjFromDB)=>{
+       
+       // console.log(issueObjFromDB);
+        if(err)
+        {
+            console.log('error in issue',err);
+        }
+        else if(projissueObjFromDB!=null)
+        {
+            
+            projissueCollectionObj.deleteOne( { projid:projissueObjFromDB.projid },(err,delobj)=>{
+                if(err)
+                {
+                    console.log('error in deleting from issue table',err);
+                }
+                else
+                {
+                    //console.log("got");
+                
+                    let date_ob = new Date();
+                    
+                    let date = ("0" + date_ob.getDate()).slice(-2);
+                    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+                    let year = date_ob.getFullYear();
+                    returndate=year + "-" + month + "-" + date;
+                    //console.log(date_ob);
+                    var projobj= JSON.parse(JSON.stringify(projissueObjFromDB));
+
+                    projobj.returndate=returndate;
+                    delete projobj._id;
+
+                   // console.log(bookobj);
+                    projreturnCollectionObj.insertOne(projobj,(err,success)=>{
+                        if(err)
+                        {
+                            console.log('error');;
+                        }
+                        else{
+                            res.send({message:"project returned successfully"});
+                        }
+                    });
+                }
+            })  
+            projCollectionObj.updateOne({projid:projissueObjFromDB.projid},{$set:{"status":false}});
+        }
+        else
+        {
+            
+            res.send({message:"project is not issued yet to return"});
+        }
+    });
+});
+
+adminApp.get('/returnfindprojid/:projid',(req,res)=>{
+    var projissueCollectionObj=dbo.getDb().projissuecollectionobj;
+    //console.log("in adminapi bid",req.params.bid);
+    projissueCollectionObj.findOne({projid:req.params.projid},(err,projissueObjFromDB)=>{
+        if(err)
+        {
+            console.log("error");
+        }
+        else if(projissueObjFromDB!=null)
+        { console.log(projissueObjFromDB);
+            res.send({message:"issue rec",data:projissueObjFromDB});
+        }
+        else{
+            res.send({message:"enter the project details again"});
+        }
+    })
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //export adminApp
 

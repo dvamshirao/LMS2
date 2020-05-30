@@ -16,6 +16,8 @@ import { ManagebooksComponent } from './admindashboard/managebooks/managebooks.c
 import { IssuedetailsComponent } from './admindashboard/issuedetails/issuedetails.component';
 import { AdmindashComponent } from './admindashboard/admindash/admindash.component';
 import { DisplaybookrequestsComponent } from './admindashboard/displaybookrequests/displaybookrequests.component';
+import { ProjcirculationComponent } from './admindashboard/projcirculation/projcirculation.component';
+import { ProjissuedetailsComponent } from './admindashboard/projissuedetails/projissuedetails.component';
 
 
 
@@ -26,8 +28,10 @@ const routes: Routes = [
     {path:'circulation/issue',component:IssueComponent},
     {path:'circulation/return',component:ReturnComponent},
     {path:'circulation/issuedetails',component:IssuedetailsComponent},
-    {path:'projects/projectslist',component:ProjectlistComponent},
-    {path:'projects/addproject',component:AddprojectsComponent},
+    {path:'projects/projectlist',component:ProjectlistComponent},
+    {path:'projects/projectoperations',component:AddprojectsComponent},
+    {path:'projects/projectscirculation',component:ProjcirculationComponent},
+    {path:'projects/projectissuedetails',component:ProjissuedetailsComponent},
     {path:'books/bookslist',component:BookslistComponent},
     {path:'books/addbooks',component:AddbooksComponent},
     {path:'books/managebooks',component:ManagebooksComponent},

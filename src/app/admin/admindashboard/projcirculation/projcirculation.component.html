@@ -1,0 +1,114 @@
+<div class="p-5 bg-light rounded shadow mb-5">
+    <!-- Lined tabs-->
+    <ul id="myTab" role="tablist" class="nav nav-tabs nav-pills with-arrow lined flex-column flex-sm-row text-center">
+      <li class="nav-item flex-sm-fill">
+        <a id="projissue-tab" data-toggle="tab" data-target="#projissue" role="tab" aria-controls="projissue" aria-selected="true" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 active">Project-Issue</a>
+      </li>
+      <li class="nav-item flex-sm-fill">
+        <a id="projreturn-tab" data-toggle="tab" data-target="#projreturn" role="tab" aria-controls="projreturn" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0">Project-Return</a>
+      </li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+    <div id="projissue" role="tabpanel" aria-labelledby="projissue-tab" class="tab-pane fade pt-5 show active">
+        <form #ref="ngForm" (ngSubmit)="issueproj(ref.value);ref.reset()">
+            <div class="row">
+                <div class="col-6-sm">
+                    <div class="form-group">   
+                        <input class="inputMaterial bg-light" type="text" name="projid" (keydown.tab)="getprojid($event.target.value)" required [(ngModel)]="projid">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">Project Id</label>
+                      </div>
+                      <div class="form-group">      
+                        <input class="inputMaterial bg-light" type="text" name="userid" (keydown.tab)="getuserid($event.target.value)" required [(ngModel)]="userid">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">User Id</label>
+                      </div>
+                      <div class="form-group" *ngIf="iuserobjstatus">      
+                        <input class="inputMaterial bg-light" type="text"  name="username"  value="{{userObj.username}}" required> 
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">User Name</label>
+                      </div>
+                     
+                </div>
+                <div class="col-6-sm">
+                      <div class="form-group" *ngIf="iprojobjstatus">      
+                        <input class="inputMaterial bg-light"  type="text" name="title" value="{{projObj.title}}"  required>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">Project Title</label>
+                        </div>
+                      <div class="form-group" *ngIf="iprojobjstatus">      
+                        <input class="inputMaterial bg-light" type="text" name="batch" value="{{projObj.batch}}" required>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">Batch/Year</label>
+                      </div>
+                      <div class="form-group" *ngIf="iprojobjstatus">      
+                        <input class="inputMaterial bg-light" type="text" name="category" value="{{projObj.category}}" required>
+                        <span class="highlight"></span> 
+                        <span class="bar"></span>
+                        <label class="label">Category</label>
+                      </div>
+                      <div class="form-group">      
+                        <input class="inputMaterial bg-light" type="date" name="dateofissue" [(ngModel)]="issuedate">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                      </div>
+                </div>
+            </div>
+            <button id="buttonsubmit" type="submit">Issue Project</button>
+          </form>
+
+    </div>
+    <div id="projreturn" role="tabpanel" aria-labelledby="projreturn-tab" class="tab-pane fade pt-5">
+        <form #ref1="ngForm" (ngSubmit)="returnproj(ref1.value);ref1.reset()">
+            <div class="row">
+                <div class="col-6-sm">
+                    <div class="form-group">   
+                        <input class="inputMaterial bg-light" type="text" name="projid"  (keydown.tab)="getprojissuedetails($event.target.value)" (keydown.tab)="getrprojid($event.target.value)" required [(ngModel)]="projid">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">Project Id</label>
+                      </div>
+                      <div class="form-group" *ngIf="rprojobjstatus">      
+                        <input class="inputMaterial bg-light"  type="text" name="title" value="{{projObj.title}}"  required>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">Project Title</label>
+                        </div>
+                      <div class="form-group" *ngIf="rprojobjstatus">      
+                        <input class="inputMaterial bg-light" type="text" name="batch" *ngIf="projobjstatus" value="{{projObj.batch}}" required>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">Batch/Year</label>
+                      </div>
+                      <div class="form-group" *ngIf="rprojobjstatus">      
+                        <input class="inputMaterial bg-light" type="text" name="category" value="{{projObj.category}}" required>
+                        <span class="highlight"></span> 
+                        <span class="bar"></span>
+                        <label class="label">Category</label>
+                      </div>
+                </div>
+                <div class="col-6-sm">
+                    <div class="form-group" *ngIf="getprojissuedetailsstatus">      
+                        <input class="inputMaterial bg-light" type="text" name="userid"  (keydown.tab)="getruserid($event.target.value)" required value="{{projissueObj.userid}}" >
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">User Id</label>
+                      </div>
+                      <div class="form-group" *ngIf="ruserobjstatus">      
+                        <input class="inputMaterial bg-light" type="text"  name="username"  value="{{userObj.username}}" required> 
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">User Name</label>
+                      </div>
+                </div>
+            </div>
+            <button id="buttonsubmit1" type="submit">Return Project</button>
+          </form>
+    </div>
+    </div>
+  </div>

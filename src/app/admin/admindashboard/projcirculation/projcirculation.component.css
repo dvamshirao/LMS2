@@ -68,7 +68,7 @@
     pointer-events:none;
     left:5px;
   }
-  .inputMaterial:focus ~ label, .inputMaterial:valid ~ label 		{
+  .inputMaterial:focus ~ label, .inputMaterial:valid ~ label ,.inputMaterial:active ~ label 		{
     top:-20px;
     font-size:15px;
     color: #6d7fcc;

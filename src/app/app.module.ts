@@ -35,6 +35,8 @@ import { AdmindashComponent } from './admin/admindashboard/admindash/admindash.c
 import { UserdashComponent } from './user/userdashboard/userdash/userdash.component';
 import { ViewbooksComponent } from './user/userdashboard/viewbooks/viewbooks.component';
 import { DisplaybookrequestsComponent } from './admin/admindashboard/displaybookrequests/displaybookrequests.component';
+import { ProjcirculationComponent } from './admin/admindashboard/projcirculation/projcirculation.component';
+import { ProjissuedetailsComponent } from './admin/admindashboard/projissuedetails/projissuedetails.component';
 
 
 
@@ -66,7 +68,9 @@ import { DisplaybookrequestsComponent } from './admin/admindashboard/displaybook
     AdmindashComponent,
     UserdashComponent,
     ViewbooksComponent,
-    DisplaybookrequestsComponent
+    DisplaybookrequestsComponent,
+    ProjcirculationComponent,
+    ProjissuedetailsComponent
   ],
   imports: [
     BrowserModule,

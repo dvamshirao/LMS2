@@ -17,6 +17,8 @@ import { ManagebooksComponent } from './admindashboard/managebooks/managebooks.c
 import { IssuedetailsComponent } from './admindashboard/issuedetails/issuedetails.component';
 import { AdmindashComponent } from './admindashboard/admindash/admindash.component';
 import { DisplaybookrequestsComponent } from './admindashboard/displaybookrequests/displaybookrequests.component';
+import { ProjcirculationComponent } from './admindashboard/projcirculation/projcirculation.component';
+import { ProjissuedetailsComponent } from './admindashboard/projissuedetails/projissuedetails.component';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import { DisplaybookrequestsComponent } from './admindashboard/displaybookreques
      ManagebooksComponent, 
      IssuedetailsComponent, 
      AdmindashComponent, 
-     DisplaybookrequestsComponent],
+     DisplaybookrequestsComponent,
+     ProjcirculationComponent,
+     ProjissuedetailsComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

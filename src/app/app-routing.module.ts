@@ -26,6 +26,8 @@ import { UserdashComponent } from './user/userdashboard/userdash/userdash.compon
 import { ViewbooksComponent } from './user/userdashboard/viewbooks/viewbooks.component';
 import { DisplaybookrequestsComponent } from './admin/admindashboard/displaybookrequests/displaybookrequests.component';
 import { AppComponent } from './app.component';
+import { ProjcirculationComponent } from './admin/admindashboard/projcirculation/projcirculation.component';
+import { ProjissuedetailsComponent } from './admin/admindashboard/projissuedetails/projissuedetails.component';
 
 
 
@@ -40,8 +42,10 @@ const routes: Routes = [
     {path:'circulation/issue',component:IssueComponent},
     {path:'circulation/return',component:ReturnComponent},
     {path:'circulation/issuedetails',component:IssuedetailsComponent},
-    {path:'projects/projectslist',component:ProjectlistComponent},
-    {path:'projects/addproject',component:AddprojectsComponent},
+    {path:'projects/projectlist',component:ProjectlistComponent},
+    {path:'projects/projectoperations',component:AddprojectsComponent},
+    {path:'projects/projectscirculation',component:ProjcirculationComponent},
+    {path:'projects/projectissuedetails',component:ProjissuedetailsComponent},
     {path:'books/bookslist',component:BookslistComponent},
     {path:'books/addbooks',component:AddbooksComponent},
     {path:'books/managebooks',component:ManagebooksComponent},

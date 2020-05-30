@@ -1,1 +1,119 @@
-<p>addprojects works!</p>
+<div class="p-5 bg-light rounded shadow mb-5">
+    <ul id="myTab" role="tablist" class="nav nav-tabs nav-pills with-arrow lined flex-column flex-sm-row text-center">
+        <li class="nav-item flex-sm-fill">
+          <a id="addpro-tab" data-toggle="tab" data-target="#addpro" role="tab" aria-controls="addpro" aria-selected="true" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0 active">Add Project </a>
+        </li>
+        <li class="nav-item flex-sm-fill">
+          <a id="editpro-tab" data-toggle="tab" data-target="#editpro" role="tab" aria-controls="editpro" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0">Edit Project</a>
+        </li>
+        <li class="nav-item flex-sm-fill">
+          <a id="delpro-tab" data-toggle="tab" data-target="#delpro" role="tab" aria-controls="delpro" aria-selected="false" class="nav-link text-uppercase font-weight-bold mr-sm-3 rounded-0">Delete Project </a>
+        </li>
+      </ul>
+      <div id="myTabContent" class="tab-content">
+    
+      <div id="addpro" role="tabpanel" aria-labelledby="addpro-tab" class="tab-pane fade py-5 show active">
+        <form #refadd="ngForm" (ngSubmit)="addproj(refadd.value);refadd.reset()">
+          <div class="row">
+              <div class="col-6-sm">   
+                      <div class="form-group">      
+                          <input class="inputMaterial bg-light" type="text" name="projid" required  ngModel>
+                          <span class="highlight"></span>
+                          <span class="bar"></span>
+                          <label class="label">Project Id</label>
+                        </div>
+                        <div class="form-group" >      
+                          <input class="inputMaterial bg-light" type="text" name="title" required ngModel>
+                          <span class="highlight"></span>
+                          <span class="bar"></span>
+                          <label class="label">Project Title</label>
+                        </div>
+              </div>
+              <div class="col-6-sm">
+                  <div class="form-group" >      
+                      <input class="inputMaterial bg-light" type="text" name="batch" required ngModel>
+                      <span class="highlight"></span>
+                      <span class="bar"></span>
+                      <label class="label">Year</label>
+                    </div>
+                      <div class="form-group" >      
+                          <input class="inputMaterial bg-light" type="text" name="category" required  ngModel>
+                          <span class="highlight"></span>
+                          <span class="bar"></span>
+                          <label class="label">Category</label>
+                        </div>
+              </div>
+          </div>
+          <button id="buttonsubmit1" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">add</span>Add Project</button>
+        </form>
+      </div>
+        <!--addpro tab close-->
+      <div id="editpro" role="tabpanel" aria-labelledby="editpro-tab" class="tab-pane fade py-5">
+        <form #ref="ngForm" (ngSubmit)="editproj(ref.value);ref.reset()">
+            <div class="row">
+                <div class="col-6-sm">   
+                        <div class="form-group">      
+                            <input class="inputMaterial bg-light" type="text" name="projid" (keydown.enter)="getprojid($event.target.value)"  required  ngModel>
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label class="label">Project Id</label>
+                          </div>
+                          <div class="form-group" *ngIf="projobjstatus">      
+                            <input class="inputMaterial bg-light" type="text" name="title" required [(ngModel)]="projObj.title">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label class="label">Project Title</label>
+                          </div>
+                </div>
+                <div class="col-6-sm">
+                    <div class="form-group" *ngIf="projobjstatus">      
+                        <input class="inputMaterial bg-light" type="text" name="batch" required [(ngModel)]="projObj.batch">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label class="label">Year</label>
+                      </div>
+                        <div class="form-group" *ngIf="projobjstatus">      
+                            <input class="inputMaterial bg-light" type="text" name="category" required  [(ngModel)]="projObj.category">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label class="label">Category</label>
+                          </div>
+                </div>
+            </div>
+            <button id="buttonsubmit2" type="submit" [disabled]="!editbuttonstatus"><span class="material-icons" style="display: inline-flex; vertical-align: top;">create</span>Edit Project Details</button>
+          </form>
+          <hr/>
+          <div>
+              <p id="headinglabel">Edit Project Id</p>
+          </div>
+          <form #refeditpid="ngForm" (ngSubmit)="editpid(refeditpid.value);refeditpid.reset()">
+            <div class="form-group">      
+              <input class="inputMaterial bg-light" type="text" name="projid" required  ngModel>
+              <span class="highlight"></span>
+              <span class="bar"></span>
+              <label class="label">Old Project Id</label>
+            </div>
+          <div class="form-group">      
+            <input class="inputMaterial bg-light" type="text" name="projid1" required ngModel>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label class="label">Enter New Project Id</label>
+          </div>
+          <button id="buttonsubmit3" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">create</span>Edit Project Id</button>
+        </form>
+      </div>
+  <!--editpro tab close-->
+      <div id="delpro" role="tabpanel" aria-labelledby="delpro-tab" class="tab-pane fade py-5">
+        <form #refdelpno="ngForm" (ngSubmit)="delswalproj(refdelpno.value);refdelpno.reset()">
+          <div class="form-group">      
+            <input class="inputMaterial bg-light" type="text" name="projid" required  ngModel>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label class="label">Project Id</label>
+          </div>
+        <button id="buttonsubmit4" type="submit"><span class="material-icons" style="display: inline-flex; vertical-align: top;">delete</span>Delete Project</button>
+      </form>
+      </div>
+    <!--delpro tab close-->
+      </div>
+    </div>

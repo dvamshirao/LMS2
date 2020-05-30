@@ -9,6 +9,9 @@ var bookcollectionobj;
 var issuecollectionobj;
 var returncollectionobj;
 var bookrequestscollectionobj;
+var projectcollectionobj;
+var projissuecollectionobj;
+var projreturncollectionobj;
 //database url
 var dbUrl="mongodb+srv://vnrlms:lmsvnr@vnrlms-hrwmq.mongodb.net/test?retryWrites=true&w=majority";
 
@@ -29,6 +32,9 @@ var dbUrl="mongodb+srv://vnrlms:lmsvnr@vnrlms-hrwmq.mongodb.net/test?retryWrites
             issuecollectionobj=dbo.collection("issue");
             returncollectionobj=dbo.collection("returnlog");
             bookrequestscollectionobj=dbo.collection("bookrequests");
+            projcollectionobj=dbo.collection("project");
+            projissuecollectionobj=dbo.collection("projissue");
+            projreturncollectionobj=dbo.collection("projreturn");
             
         });
  }
@@ -44,6 +50,9 @@ var dbUrl="mongodb+srv://vnrlms:lmsvnr@vnrlms-hrwmq.mongodb.net/test?retryWrites
          issuecollectionobj:issuecollectionobj,
          returncollectionobj:returncollectionobj,
          bookrequestscollectionobj:bookrequestscollectionobj,
+         projcollectionobj:projcollectionobj,
+         projissuecollectionobj:projissuecollectionobj,
+         projreturncollectionobj:projreturncollectionobj
      }
 }
 

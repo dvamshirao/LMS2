@@ -25,4 +25,8 @@ export class RegisterService {
   {
     return this.hc.post('/admin/userRegister',userObj);
   }
+  projRegister(projObj):Observable<any>
+  {
+    return this.hc.post('/admin/addproj',projObj);
+  }
 }
