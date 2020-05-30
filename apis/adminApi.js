@@ -99,7 +99,6 @@ adminApp.get('/admindashboard/circulation/issuefindbook/:bookid',(req,res)=>{
         }
     })
 });
-
 adminApp.get('/admindashboard/circulation/issuefinduser/:userid',(req,res)=>{
     var userCollectionObj=dbo.getDb().usercollectionobj;
    // console.log("in adminapi userid",req.params.userid1);
@@ -425,6 +424,7 @@ adminApp.put('/editbook',(req,res)=>{
         }
         else if(obj!=null)
         {
+            bookCollectionObj.updateOne({ISBNnumber:req.body.ISBNnumber},{$inc:{"count":-1}});
             bookCollectionObj.updateOne(
                 { ISBNnumber : req.body.ISBNnumber },
                 { $set: { "bookname" : req.body.bookname , "Author" : req.body.Author ,"publisher" : req.body.publisher} },(err,succ)=>{
@@ -562,6 +562,7 @@ adminApp.put('/deletebookid',(req,res)=>{
                     res.send({message:"book deleted"}); 
                 }
             });
+
             issueCollectionObj.deleteOne({ bid : req.body.bookid } ,(err,succ)=>{if(err) console.log(err);});
         }
         else{
@@ -643,6 +644,10 @@ adminApp.get('/getissuereturndetails',(req,res)=>{
         }
         else
         {
+            for(var i=0;i<returndetailsObjFromDB.length;i++)
+            {
+                delete returndetailsObjFromDB[i]._id;
+            }
             res.send({message:"Records found",data:returndetailsObjFromDB});
         }
     })
@@ -786,8 +791,8 @@ adminApp.get('/displaybookrequests',(req,res)=>{
 
     });
 })
+/**************************** */
 
-/********************************** */
 adminApp.get('/findprojid/:projid',(req,res)=>{
     var projCollectionObj=dbo.getDb().projcollectionobj;
     //console.log("in adminapi bookid",req.params.bookid);
@@ -1140,22 +1145,45 @@ adminApp.get('/returnfindprojid/:projid',(req,res)=>{
 });
 
 
+/*************************************** */
+adminApp.post('/uploadreturndetails',(req,res)=>{
+    var returnCollectionObj=dbo.getDb().returncollectionobj;
+    returnCollectionObj.insertMany(req.body,(err,succ)=>{
+        if(err)
+        {
+            console.log("error in return log upload",err);
+        }
+        else{
+            res.send({message:" return log upload successfull"});
+        }
+    })
+})
 
+adminApp.post('/uploadissuedetails',(req,res)=>{
+    var issueCollectionObj=dbo.getDb().issuecollectionobj;
+    issueCollectionObj.insertMany(req.body,(err,succ)=>{
+        if(err)
+        {
+            console.log("error in return log upload",err);
+        }
+        else{
+            res.send({message:"issue log upload successfull"});
+        }
+    })
+})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+adminApp.post('/uploadbookdetails',(req,res)=>{
+    var bookCollectionObj=dbo.getDb().bookcollectionobj;
+    bookCollectionObj.insertMany(req.body,(err,succ)=>{
+        if(err)
+        {
+            console.log("error in return log upload",err);
+        }
+        else{
+            res.send({message:"books log upload successfull"});
+        }
+    })
+})
 
 //export adminApp
 

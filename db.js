@@ -9,9 +9,6 @@ var bookcollectionobj;
 var issuecollectionobj;
 var returncollectionobj;
 var bookrequestscollectionobj;
-var projectcollectionobj;
-var projissuecollectionobj;
-var projreturncollectionobj;
 //database url
 var dbUrl="mongodb+srv://vnrlms:lmsvnr@vnrlms-hrwmq.mongodb.net/test?retryWrites=true&w=majority";
 

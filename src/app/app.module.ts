@@ -40,7 +40,6 @@ import { ProjissuedetailsComponent } from './admin/admindashboard/projissuedetai
 
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,8 +69,7 @@ import { ProjissuedetailsComponent } from './admin/admindashboard/projissuedetai
     ViewbooksComponent,
     DisplaybookrequestsComponent,
     ProjcirculationComponent,
-    ProjissuedetailsComponent
-  ],
+    ProjissuedetailsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

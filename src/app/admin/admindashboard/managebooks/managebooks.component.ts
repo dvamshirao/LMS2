@@ -40,7 +40,7 @@ bookobjstatus:boolean=false;
       icon: 'error',
       text: 'Fill all details!',
      
-    });   
+    });  
   }
  }
  editbook(obj)

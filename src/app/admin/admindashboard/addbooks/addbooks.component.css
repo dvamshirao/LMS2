@@ -117,9 +117,3 @@
     .nav-pills .nav-link {
       color: #999;
     }
-    hr {
-      margin-top: 3rem;
-      margin-bottom: 3rem;
-      border: 0;
-      border-top: 2px solid rgba(0, 0, 0, 0.1);
-    }
