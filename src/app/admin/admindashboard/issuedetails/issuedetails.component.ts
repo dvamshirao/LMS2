@@ -29,6 +29,7 @@ filename:string="";
   ngOnInit() {
     this.hc.get('admin/getissuedetails').subscribe((objOfres:object)=>{
       this.issueObj=objOfres["data"];
+      console.log(this.issueObj);
       this.temp1 = true;
       $(function() {
         $(document).ready(function() {
@@ -39,6 +40,8 @@ filename:string="";
 });
 this.hc.get('admin/getissuereturndetails').subscribe((objOfres:object)=>{
   this.returnissueObj=objOfres["data"];
+  console.log(this.returnissueObj);
+
   this.temp2 = true;
   $(function() {
     $(document).ready(function() {

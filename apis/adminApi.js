@@ -11,7 +11,10 @@ dbo.initDb();
 
 const jwt=require("jsonwebtoken")
 
-adminApp.get('/admindashboard/notifydelays',(req,res)=>{
+
+const verifyToken=require("../middlewares/verifyToken");
+
+adminApp.get('/admindashboard/notifydelays',verifyToken,(req,res)=>{
     var issueCollectionObj=dbo.getDb().issuecollectionobj;
     issueCollectionObj.find().toArray( (err,userObjFromDB)=>{
         if(err)
@@ -45,7 +48,7 @@ adminApp.get('/admindashboard/notifydelays',(req,res)=>{
     });
 })
 
-adminApp.get('/admindashboard/manageusers/viewusers',(req,res)=>{
+adminApp.get('/admindashboard/manageusers/viewusers',verifyToken,(req,res)=>{
     var userCollectionObj=dbo.getDb().usercollectionobj;
     userCollectionObj.find().toArray( (err,userObjFromDB)=>{
         if(err)
@@ -59,7 +62,7 @@ adminApp.get('/admindashboard/manageusers/viewusers',(req,res)=>{
     })
 });
 
-adminApp.get('/admindashboard/bookslist',(req,res)=>{
+adminApp.get('/admindashboard/bookslist',verifyToken,(req,res)=>{
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
     bookCollectionObj.find().toArray((err,bookObjFromDB)=>{
         if(err)
@@ -82,7 +85,7 @@ adminApp.get('/admindashboard/bookslist',(req,res)=>{
 
 })
 
-adminApp.get('/admindashboard/circulation/issuefindbook/:bookid',(req,res)=>{
+adminApp.get('/admindashboard/circulation/issuefindbook/:bookid',verifyToken,(req,res)=>{
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
     //console.log("in adminapi bookid",req.params.bookid);
     bookCollectionObj.findOne({ISBNnumber:req.params.bookid},(err,bookObjFromDB)=>{
@@ -99,7 +102,7 @@ adminApp.get('/admindashboard/circulation/issuefindbook/:bookid',(req,res)=>{
         }
     })
 });
-adminApp.get('/admindashboard/circulation/issuefinduser/:userid',(req,res)=>{
+adminApp.get('/admindashboard/circulation/issuefinduser/:userid',verifyToken,(req,res)=>{
     var userCollectionObj=dbo.getDb().usercollectionobj;
    // console.log("in adminapi userid",req.params.userid1);
    userCollectionObj.findOne({userid:req.params.userid},(err,userObjFromDB)=>{
@@ -119,7 +122,7 @@ adminApp.get('/admindashboard/circulation/issuefinduser/:userid',(req,res)=>{
    
 });
 
-adminApp.get('/admindashboard/circulation/returnfindbid/:bid',(req,res)=>{
+adminApp.get('/admindashboard/circulation/returnfindbid/:bid',verifyToken,(req,res)=>{
     var issueCollectionObj=dbo.getDb().issuecollectionobj;
     //console.log("in adminapi bid",req.params.bid);
     issueCollectionObj.findOne({bid:req.params.bid},(err,issueObjFromDB)=>{
@@ -137,7 +140,7 @@ adminApp.get('/admindashboard/circulation/returnfindbid/:bid',(req,res)=>{
     })
 });
 
-adminApp.post('/issue',(req,res)=>{
+adminApp.post('/issue',verifyToken,(req,res)=>{
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
     var issueCollectionObj=dbo.getDb().issuecollectionobj;
     var userCollectionObj=dbo.getDb().usercollectionobj;
@@ -206,7 +209,7 @@ adminApp.post('/issue',(req,res)=>{
         }
     })
 });
-adminApp.post('/return',(req,res)=>{
+adminApp.post('/return',verifyToken,(req,res)=>{
     var issueCollectionObj=dbo.getDb().issuecollectionobj;
     var returnCollectionObj=dbo.getDb().returncollectionobj;
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
@@ -265,7 +268,7 @@ adminApp.post('/return',(req,res)=>{
     });
 });
 
-adminApp.post('/bookregister',(req,res)=>{
+adminApp.post('/bookregister',verifyToken,(req,res)=>{
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
     bookCollectionObj.findOne({ISBNnumber:req.body.ISBNnumber},(err,bookObjFromDB)=>{
         if(err)
@@ -290,7 +293,7 @@ adminApp.post('/bookregister',(req,res)=>{
 });
 
 
-adminApp.post('/bookadd',(req,res)=>{
+adminApp.post('/bookadd',verifyToken,(req,res)=>{
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
     bookCollectionObj.findOne({ISBNnumber:req.body.ISBNnumber},(err,bookObjFromDB)=>{
         if(err)
@@ -318,7 +321,7 @@ adminApp.post('/bookadd',(req,res)=>{
 
     })
 });
-adminApp.put('/edituser',(req,res)=>{
+adminApp.put('/edituser',verifyToken,(req,res)=>{
     var userCollectionObj=dbo.getDb().usercollectionobj;
     userCollectionObj.findOne({userid:req.body.userid},(err,obj)=>{
         if(err)
@@ -346,7 +349,7 @@ adminApp.put('/edituser',(req,res)=>{
 
 });          
 
-adminApp.delete('/deleteuser/:userid',(req,res)=>{
+adminApp.delete('/deleteuser/:userid',verifyToken,(req,res)=>{
     var userCollectionObj=dbo.getDb().usercollectionobj;
     var issueCollectionObj=dbo.getDb().issuecollectionobj;
     userCollectionObj.findOne({userid:req.params.userid},(err,obj)=>{
@@ -385,7 +388,7 @@ adminApp.delete('/deleteuser/:userid',(req,res)=>{
     });
 });
 
-adminApp.delete('/deletebook/:bookno',(req,res)=>{
+adminApp.delete('/deletebook/:bookno',verifyToken,(req,res)=>{
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
     var issueCollectionObj=dbo.getDb().issuecollectionobj;
     bookCollectionObj.findOne({ISBNnumber:req.params.bookno},(err,obj)=>{
@@ -415,7 +418,7 @@ adminApp.delete('/deletebook/:bookno',(req,res)=>{
 });
 
 
-adminApp.put('/editbook',(req,res)=>{
+adminApp.put('/editbook',verifyToken,(req,res)=>{
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
     bookCollectionObj.findOne({ISBNnumber:req.body.ISBNnumber},(err,obj)=>{
         if(err)
@@ -443,7 +446,7 @@ adminApp.put('/editbook',(req,res)=>{
     });
 
 });          
-adminApp.put('/editbno',(req,res)=>{
+adminApp.put('/editbno',verifyToken,(req,res)=>{
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
     var issueCollectionObj=dbo.getDb().issuecollectionobj;
     var returnCollectionObj=dbo.getDb().returncollectionobj;
@@ -474,7 +477,7 @@ adminApp.put('/editbno',(req,res)=>{
     });
 
 });          
-adminApp.put('/editbid',(req,res)=>{
+adminApp.put('/editbid',verifyToken,(req,res)=>{
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
     var issueCollectionObj=dbo.getDb().issuecollectionobj;
     var returnCollectionObj=dbo.getDb().returncollectionobj;
@@ -505,7 +508,7 @@ adminApp.put('/editbid',(req,res)=>{
 
 });      
 
-adminApp.put('/edituid',(req,res)=>{
+adminApp.put('/edituid',verifyToken,(req,res)=>{
     var userCollectionObj=dbo.getDb().usercollectionobj;
     var issueCollectionObj=dbo.getDb().issuecollectionobj;
     var returnCollectionObj=dbo.getDb().returncollectionobj;
@@ -538,7 +541,7 @@ adminApp.put('/edituid',(req,res)=>{
 
 });          
 
-adminApp.put('/deletebookid',(req,res)=>{
+adminApp.put('/deletebookid',verifyToken,(req,res)=>{
     var issueCollectionObj=dbo.getDb().issuecollectionobj;
     console.log("in admin api:",req.body.ISBNnumber,req.body.bookid);
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
@@ -571,7 +574,7 @@ adminApp.put('/deletebookid',(req,res)=>{
     });
 });
 
-adminApp.get('/getissuedetails',(req,res)=>{
+adminApp.get('/getissuedetails',verifyToken,(req,res)=>{
     var issueCollectionObj=dbo.getDb().issuecollectionobj;
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
     var userCollectionObj=dbo.getDb().usercollectionobj;
@@ -630,7 +633,7 @@ adminApp.get('/getissuedetails',(req,res)=>{
     })
 });
 
-adminApp.get('/getissuereturndetails',(req,res)=>{
+adminApp.get('/getissuereturndetails',verifyToken,(req,res)=>{
     var returnCollectionObj=dbo.getDb().returncollectionobj;
     returnCollectionObj.find({}).toArray( (err,returndetailsObjFromDB)=>{
         if(err)
@@ -656,7 +659,7 @@ adminApp.get('/getissuereturndetails',(req,res)=>{
 adminApp.post('/login',(req,res)=>{
     res.send({message:"admin login works"})
 });
-adminApp.post('/userRegister',(req,res)=>{
+adminApp.post('/userRegister',verifyToken,(req,res)=>{
     var userCollectionObj=dbo.getDb().usercollectionobj;
     userCollectionObj.findOne({userid:req.body.userid},(err,userObjFromDB)=>{
         if(err)
@@ -686,7 +689,7 @@ adminApp.post('/userRegister',(req,res)=>{
     })
 });
 
-adminApp.post('/verifysecuritykey/:adminid',(req,res)=>{
+adminApp.post('/verifysecuritykey/:adminid',verifyToken,(req,res)=>{
     console.log(req.params.adminid);
     var adminCollectionObj=dbo.getDb().admincollectionobj;
     adminCollectionObj.findOne({adminid:req.params.adminid},(err,Obj)=>{
@@ -717,7 +720,7 @@ adminApp.post('/verifysecuritykey/:adminid',(req,res)=>{
 
 })
 
-adminApp.post('/changeusername/:adminid',(req,res)=>{
+adminApp.post('/changeusername/:adminid',verifyToken,(req,res)=>{
     var adminCollectionObj=dbo.getDb().admincollectionobj;
     adminCollectionObj.findOne({adminid:req.params.adminid},(err,obj)=>{
         if(err)
@@ -747,7 +750,7 @@ adminApp.post('/changeusername/:adminid',(req,res)=>{
 })
 
 
-adminApp.post('/changepassword/:adminid',(req,res)=>{
+adminApp.post('/changepassword/:adminid',verifyToken,(req,res)=>{
     var adminCollectionObj=dbo.getDb().admincollectionobj;
     adminCollectionObj.findOne({adminid:req.params.adminid},(err,obj)=>{
         if(err)
@@ -777,7 +780,7 @@ adminApp.post('/changepassword/:adminid',(req,res)=>{
 
 })
 
-adminApp.get('/displaybookrequests',(req,res)=>{
+adminApp.get('/displaybookrequests',verifyToken,(req,res)=>{
     var bookrequestsCollectionObj=dbo.getDb().bookrequestscollectionobj; 
     bookrequestsCollectionObj.find().toArray( (err,bookrequestsObjFromDB)=>{
         if(err)
@@ -793,7 +796,7 @@ adminApp.get('/displaybookrequests',(req,res)=>{
 })
 /**************************** */
 
-adminApp.get('/findprojid/:projid',(req,res)=>{
+adminApp.get('/findprojid/:projid',verifyToken,(req,res)=>{
     var projCollectionObj=dbo.getDb().projcollectionobj;
     //console.log("in adminapi bookid",req.params.bookid);
     projCollectionObj.findOne({projid:req.params.projid},(err,projObjFromDB)=>{
@@ -811,7 +814,7 @@ adminApp.get('/findprojid/:projid',(req,res)=>{
     })
 });
 
-adminApp.post('/addproj',(req,res)=>{
+adminApp.post('/addproj',verifyToken,(req,res)=>{
     var projCollectionObj=dbo.getDb().projcollectionobj;
     projCollectionObj.findOne({projid:req.body.projid},(err,projObjFromDB)=>{
         if(err)
@@ -835,7 +838,7 @@ adminApp.post('/addproj',(req,res)=>{
     });
 });
 
-adminApp.put('/editproj',(req,res)=>{
+adminApp.put('/editproj',verifyToken,(req,res)=>{
     var projCollectionObj=dbo.getDb().projcollectionobj;
     projCollectionObj.findOne({projid:req.body.projid},(err,obj)=>{
         if(err)
@@ -862,7 +865,7 @@ adminApp.put('/editproj',(req,res)=>{
     });
 
 });      
-adminApp.put('/editpid',(req,res)=>{
+adminApp.put('/editpid',verifyToken,(req,res)=>{
     var projCollectionObj=dbo.getDb().projcollectionobj;
     var projissueCollectionObj=dbo.getDb().projissuecollectionobj;
     var projreturnCollectionObj=dbo.getDb().projreturncollectionobj;
@@ -895,7 +898,7 @@ adminApp.put('/editpid',(req,res)=>{
 });          
 
 
-adminApp.delete('/deleteproj/:projid',(req,res)=>{
+adminApp.delete('/deleteproj/:projid',verifyToken,(req,res)=>{
     var projCollectionObj=dbo.getDb().projcollectionobj;
     var projissueCollectionObj=dbo.getDb().projissuecollectionobj;
     projCollectionObj.findOne({projid:req.params.projid},(err,obj)=>{
@@ -924,7 +927,7 @@ adminApp.delete('/deleteproj/:projid',(req,res)=>{
     });
 });
 
-adminApp.get('/viewprojects',(req,res)=>{
+adminApp.get('/viewprojects',verifyToken,(req,res)=>{
     var projCollectionObj=dbo.getDb().projcollectionobj;
     projCollectionObj.find().toArray( (err,projObjFromDB)=>{
         if(err)
@@ -938,7 +941,7 @@ adminApp.get('/viewprojects',(req,res)=>{
     })
 });
 
-adminApp.get('/getprojissuedetails',(req,res)=>{
+adminApp.get('/getprojissuedetails',verifyToken,(req,res)=>{
     var projissueCollectionObj=dbo.getDb().projissuecollectionobj;
     var projCollectionObj=dbo.getDb().projcollectionobj;
     var userCollectionObj=dbo.getDb().usercollectionobj;
@@ -997,7 +1000,7 @@ adminApp.get('/getprojissuedetails',(req,res)=>{
     });
 });
 
-adminApp.get('/getprojissuereturndetails',(req,res)=>{
+adminApp.get('/getprojissuereturndetails',verifyToken,(req,res)=>{
     var projreturnCollectionObj=dbo.getDb().projreturncollectionobj;
     projreturnCollectionObj.find({}).toArray( (err,projreturndetailsObjFromDB)=>{
         if(err)
@@ -1017,7 +1020,7 @@ adminApp.get('/getprojissuereturndetails',(req,res)=>{
 });
 
 
-adminApp.post('/projissue',(req,res)=>{
+adminApp.post('/projissue',verifyToken,(req,res)=>{
     var projCollectionObj=dbo.getDb().projcollectionobj;
     var projissueCollectionObj=dbo.getDb().projissuecollectionobj;
     var userCollectionObj=dbo.getDb().usercollectionobj;
@@ -1067,7 +1070,7 @@ adminApp.post('/projissue',(req,res)=>{
         }
     })
 });
-adminApp.post('/projreturn',(req,res)=>{
+adminApp.post('/projreturn',verifyToken,(req,res)=>{
     var projissueCollectionObj=dbo.getDb().projissuecollectionobj;
     var projreturnCollectionObj=dbo.getDb().projreturncollectionobj;
     var projCollectionObj=dbo.getDb().projcollectionobj;
@@ -1126,7 +1129,7 @@ adminApp.post('/projreturn',(req,res)=>{
     });
 });
 
-adminApp.get('/returnfindprojid/:projid',(req,res)=>{
+adminApp.get('/returnfindprojid/:projid',verifyToken,(req,res)=>{
     var projissueCollectionObj=dbo.getDb().projissuecollectionobj;
     //console.log("in adminapi bid",req.params.bid);
     projissueCollectionObj.findOne({projid:req.params.projid},(err,projissueObjFromDB)=>{
@@ -1146,7 +1149,7 @@ adminApp.get('/returnfindprojid/:projid',(req,res)=>{
 
 
 /*************************************** */
-adminApp.post('/uploadreturndetails',(req,res)=>{
+adminApp.post('/uploadreturndetails',verifyToken,(req,res)=>{
     var returnCollectionObj=dbo.getDb().returncollectionobj;
     returnCollectionObj.insertMany(req.body,(err,succ)=>{
         if(err)
@@ -1159,7 +1162,7 @@ adminApp.post('/uploadreturndetails',(req,res)=>{
     })
 })
 
-adminApp.post('/uploadissuedetails',(req,res)=>{
+adminApp.post('/uploadissuedetails',verifyToken,(req,res)=>{
     var issueCollectionObj=dbo.getDb().issuecollectionobj;
     issueCollectionObj.insertMany(req.body,(err,succ)=>{
         if(err)
@@ -1172,7 +1175,7 @@ adminApp.post('/uploadissuedetails',(req,res)=>{
     })
 })
 
-adminApp.post('/uploadbookdetails',(req,res)=>{
+adminApp.post('/uploadbookdetails',verifyToken,(req,res)=>{
     var bookCollectionObj=dbo.getDb().bookcollectionobj;
     bookCollectionObj.insertMany(req.body,(err,succ)=>{
         if(err)
@@ -1183,6 +1186,34 @@ adminApp.post('/uploadbookdetails',(req,res)=>{
             res.send({message:"books log upload successfull"});
         }
     })
+})
+
+adminApp.post('/admindashboard/books/bookslist/uploadbooksdata',verifyToken,(req,res)=>{
+    var userCollectionObj=dbo.getDb().usercollectionobj;
+    userCollectionObj.insertMany(req.body,(err,succ)=>{
+        if(err)
+        {
+            console.log("error in user log upload",err);
+        }
+        else{
+            res.send({message:"user upload successfull"});
+        }
+    })
+
+})
+
+adminApp.post('/admindashboard/projects/projectslist/uploadprojects',verifyToken,(req,res)=>{
+    var projCollectionObj=dbo.getDb().projcollectionobj;
+    projCollectionObj.insertMany(req.body,(err,succ)=>{
+        if(err)
+        {
+            console.log("error in project log upload",err);
+        }
+        else{
+            res.send({message:"projects upload successfull"});
+        }
+    })
+
 })
 
 //export adminApp

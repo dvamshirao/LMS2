@@ -23,12 +23,24 @@
       </div>
     </div>
     </div>
-<div class="jumbotron jumbotron-fluid shadow rounded-sm bg-white mt-3" style="width: 100%;">
-<div>
-<p id="headinglabel">Export-Import Data!</p> 
-</div>
-<div class="row">
-<div class="col-6-sm m-1"><button id="buttonsubmit1" type="submit">Export Data</button></div>
-<div class="col-6-sm m-1"><button id="buttonsubmit2" type="submit">Import Data</button></div>
-</div>
-</div>
+    <div class="jumbotron jumbotron-fluid shadow rounded-sm bg-white mt-3" style="width: 100%;">
+      <div>
+        <div>
+          <p id="headinglabel">Export Data!</p> 
+        </div>
+        <div >
+          <button id="buttonsubmit1" type="submit" (click)="exportAsXLSX1()">Export Data</button>
+        </div>
+        <hr/>
+        <div>
+          <p id="headinglabel">Import Data!</p> 
+        </div>
+        <div >
+        <label for="file-upload" class="custom-file-upload">
+          <i class="fas fa-cloud-upload-alt"></i> Upload File
+        </label>
+        <input id="file-upload" type="file" (change)="onFileChange($event)" style="display:none;" />
+        <div><span class="label1 my-3">{{filename}}</span></div>
+        <button id="buttonsubmit2" type="submit" (click)="uploadprojdetails()">Import Data</button></div>
+      </div>
+    </div>
