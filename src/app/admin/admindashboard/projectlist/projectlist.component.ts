@@ -4,6 +4,10 @@ import 'datatables.net-bs4';
 import * as XLSX from 'xlsx';
 import { HttpClient } from '@angular/common/http';
 import {ExcelServiceService} from 'src/app/excel-service.service';
+import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
+import 'sweetalert2/src/sweetalert2.scss';
+import { LoginService } from 'src/app/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-projectlist',
@@ -19,9 +23,24 @@ export class ProjectlistComponent implements OnInit {
   jsonData=null;
   j;
   filename:string="";
-    constructor(private hc:HttpClient,private excelService:ExcelServiceService) { }
+    constructor(private hc:HttpClient,private excelService:ExcelServiceService,private ls:LoginService,private router:Router) { }
     ngOnInit() {
       this.hc.get('admin/viewprojects').subscribe((objOfres:object)=>{
+        if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
+        
         this.projObj=objOfres["data"];
         console.log(this.projObj)
         this.temp = true;
@@ -30,6 +49,7 @@ export class ProjectlistComponent implements OnInit {
           $('#projexample').DataTable();
         });
       }); 
+    }
   });
   
     }
@@ -77,7 +97,26 @@ export class ProjectlistComponent implements OnInit {
     uploadprojdetails()
   {
     this.hc.post('admin/admindashboard/projects/projectslist/uploadprojects',this.jsonData[this.j]).subscribe((objOfres:object)=>{
-      alert(objOfres["message"]);
+      if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
+        Swal.fire({
+          icon: 'success',
+          title: 'Uploaded!',
+          text: "projects details uploaded succesfully",
+        });
+      }
     });
   }
 

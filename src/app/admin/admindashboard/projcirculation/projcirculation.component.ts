@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
 import 'sweetalert2/src/sweetalert2.scss'
+import { LoginService } from 'src/app/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-projcirculation',
@@ -26,7 +28,7 @@ getprojissuedetailsstatus:boolean=false;
 
   myDate=new Date();
   issuedate:any;
-  constructor(private hc:HttpClient,private datePipe:DatePipe) { }
+  constructor(private hc:HttpClient,private datePipe:DatePipe,private ls:LoginService,private router:Router) { }
   
   ngOnInit() {
       this.issuedate=this.datePipe.transform(this.myDate,'yyyy-MM-dd');
@@ -37,6 +39,20 @@ getprojissuedetailsstatus:boolean=false;
     this.projid=projid;
     if(!(this.projid==null || this.projid.trim()=="")){
         this.hc.get(`/admin/findprojid/${this.projid}`).subscribe((objOfres:object)=>{
+          if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
         this.projObj=objOfres["data"];
         if (this.projObj!=null){
           this.iprojobjstatus=true;}
@@ -47,6 +63,7 @@ getprojissuedetailsstatus:boolean=false;
             text: 'enter correct project Id!',
             }); 
             }
+          }
           });
         }
     else{
@@ -62,6 +79,20 @@ getprojissuedetailsstatus:boolean=false;
   this.userid=userid;
   if(!(this.userid==null || this.userid.trim()=="")){
   this.hc.get(`/admin/admindashboard/circulation/issuefinduser/${this.userid}`).subscribe((objOfres:object)=>{
+    if(objOfres["message"]=="Please relogin to continue...")
+    {
+      Swal.fire(
+        'Session timed Out!',
+        'please relogin to continue.',
+        'success'
+      )
+    //  console.log("yes");
+      this.ls.adminLoginStatus=false;
+      this.ls.doLogout();
+      this.router.navigate(['../../']);
+      
+    }
+    else{
     this.userObj=objOfres["data"];
     if(this.userObj!=null){
     this.iuserobjstatus=true;}
@@ -72,6 +103,7 @@ getprojissuedetailsstatus:boolean=false;
         text: 'enter correct user id!',
        
       }); }
+    }
 });}
 else{
   this.iprojobjstatus=false;
@@ -89,6 +121,20 @@ getrprojid(projid) {
   this.projid=projid;
   if(!(this.projid==null || this.projid.trim()=="")){
       this.hc.get(`/admin/findprojid/${this.projid}`).subscribe((objOfres:object)=>{
+        if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
       this.projObj=objOfres["data"];
       if (this.projObj!=null){
         this.rprojobjstatus=true;
@@ -100,6 +146,7 @@ getrprojid(projid) {
           text: 'enter correct project Id!',
           }); 
           }
+        }
         });
         
       }
@@ -116,6 +163,20 @@ getruserid(userid) {
 this.userid=userid;
 if(!(this.userid==null || this.userid.trim()=="")){
 this.hc.get(`/admin/admindashboard/circulation/issuefinduser/${this.userid}`).subscribe((objOfres:object)=>{
+  if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
   this.userObj=objOfres["data"];
   if(this.userObj!=null){
   this.ruserobjstatus=true;}
@@ -126,6 +187,7 @@ this.hc.get(`/admin/admindashboard/circulation/issuefinduser/${this.userid}`).su
       text: 'enter correct user id!',
      
     }); }
+  }
 });}
 else{
 this.rprojobjstatus=false;
@@ -143,6 +205,20 @@ getprojissuedetails(projid)
 {
   if(!(projid==null || projid.trim()=="")){
   this.hc.get(`/admin/returnfindprojid/${projid}`).subscribe((objOfres:object)=>{
+    if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
     this.projissueObj=objOfres["data"];
     console.log(this.projissueObj);
     if (this.projissueObj==null)
@@ -158,6 +234,7 @@ getprojissuedetails(projid)
     this.getprojissuedetailsstatus=true;
     
   }
+}
   });}else{
     this.getprojissuedetailsstatus=false;
     Swal.fire({
@@ -176,6 +253,20 @@ issueproj(obj)
   {
     if(this.isvalid(obj)){
       this.hc.post('/admin/projissue',obj).subscribe((res)=>{
+        if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
         if(res["message"]=="project issued"){
         Swal.fire({
           icon: 'success',
@@ -190,6 +281,7 @@ issueproj(obj)
             text: res["message"],
           });  
         }
+      }
          });
          this.issuedate=this.datePipe.transform(this.myDate,'yyyy-MM-dd');
          this.iprojobjstatus=false;
@@ -211,6 +303,20 @@ issueproj(obj)
   {
     if(this.isvalid(returnobj)){
       this.hc.post('/admin/projreturn',returnobj).subscribe((res)=>{
+        if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
         if(res["message"]=="project returned successfully"){
           Swal.fire({
             icon: 'success',
@@ -228,7 +334,8 @@ issueproj(obj)
               icon: 'error',
               text: res["message"],
             });  
-          }  
+          } 
+        } 
          });
         
         

@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import {ExcelServiceService} from 'src/app/excel-service.service';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
 import 'sweetalert2/src/sweetalert2.scss'
+import { LoginService } from 'src/app/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-issuedetails',
@@ -24,10 +26,24 @@ issuecheck:boolean=false;
 jsonData=null;
 j;
 filename:string="";
-  constructor(private hc:HttpClient,private excelService:ExcelServiceService) { }
+  constructor(private hc:HttpClient,private excelService:ExcelServiceService,private ls:LoginService,private router:Router) { }
 
   ngOnInit() {
     this.hc.get('admin/getissuedetails').subscribe((objOfres:object)=>{
+      if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
       this.issueObj=objOfres["data"];
       console.log(this.issueObj);
       this.temp1 = true;
@@ -36,9 +52,23 @@ filename:string="";
           $('#example1').DataTable();
         });
       }); 
-      
+    }
 });
 this.hc.get('admin/getissuereturndetails').subscribe((objOfres:object)=>{
+  if(objOfres["message"]=="Please relogin to continue...")
+  {
+    Swal.fire(
+      'Session timed Out!',
+      'please relogin to continue.',
+      'success'
+    )
+  //  console.log("yes");
+    this.ls.adminLoginStatus=false;
+    this.ls.doLogout();
+    this.router.navigate(['../../']);
+    
+  }
+  else{
   this.returnissueObj=objOfres["data"];
   console.log(this.returnissueObj);
 
@@ -48,6 +78,7 @@ this.hc.get('admin/getissuereturndetails').subscribe((objOfres:object)=>{
       $('#example2').DataTable();
     });
   }); 
+}
 }); 
      
   } 
@@ -98,6 +129,20 @@ this.hc.get('admin/getissuereturndetails').subscribe((objOfres:object)=>{
     if(this.returncheck==true)
     {
     this.hc.post('admin/uploadreturndetails',this.jsonData[this.j]).subscribe((objOfres:object)=>{
+      if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
     //  console.log("retrived");
     Swal.fire({
       icon: 'success',
@@ -106,6 +151,7 @@ this.hc.get('admin/getissuereturndetails').subscribe((objOfres:object)=>{
       showConfirmButton: false,
       timer: 1500
     }); 
+  }
     }); 
   }
   else{
@@ -125,6 +171,20 @@ this.hc.get('admin/getissuereturndetails').subscribe((objOfres:object)=>{
          delete this.jsonData[this.j][i].bookid;
       }
     this.hc.post('admin/uploadissuedetails',this.jsonData[this.j]).subscribe((objOfres:object)=>{
+      if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
     //  console.log("retrived");
     Swal.fire({
       icon: 'success',
@@ -133,7 +193,7 @@ this.hc.get('admin/getissuereturndetails').subscribe((objOfres:object)=>{
       showConfirmButton: false,
       timer: 1500
     }); 
-     
+  }
     }); 
   }
   else{

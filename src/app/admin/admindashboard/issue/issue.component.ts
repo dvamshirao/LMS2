@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
-import 'sweetalert2/src/sweetalert2.scss'
+import 'sweetalert2/src/sweetalert2.scss';
+import { LoginService } from 'src/app/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-issue',
@@ -19,7 +21,7 @@ export class IssueComponent implements OnInit {
   userobjstatus:boolean=false;
   myDate=new Date();
   issuedate:any;
-  constructor(private hc:HttpClient,private datePipe:DatePipe) { }
+  constructor(private hc:HttpClient,private datePipe:DatePipe,private ls:LoginService,private router:Router) { }
   
   ngOnInit() {
       this.issuedate=this.datePipe.transform(this.myDate,'yyyy-MM-dd');
@@ -30,6 +32,20 @@ export class IssueComponent implements OnInit {
     this.bookid=bookid;
     if(!(this.bookid==null || this.bookid.trim()=="")){
         this.hc.get(`/admin/admindashboard/circulation/issuefindbook/${this.bookid}`).subscribe((objOfres:object)=>{
+          if(objOfres["message"]=="Please relogin to continue...")
+          {
+            Swal.fire(
+              'Session timed Out!',
+              'please relogin to continue.',
+              'success'
+            )
+          //  console.log("yes");
+            this.ls.adminLoginStatus=false;
+            this.ls.doLogout();
+            this.router.navigate(['../../']);
+            
+          }
+          else{
         this.bookObj=objOfres["data"];
         if (this.bookObj!=null){
           this.bookobjstatus=true;}
@@ -40,6 +56,7 @@ export class IssueComponent implements OnInit {
             text: 'enter correct book number!',
             }); 
             }
+          }
           });
         }
     else{
@@ -55,6 +72,20 @@ export class IssueComponent implements OnInit {
   this.userid=userid;
   if(!(this.userid==null || this.userid.trim()=="")){
   this.hc.get(`/admin/admindashboard/circulation/issuefinduser/${this.userid}`).subscribe((objOfres:object)=>{
+    if(objOfres["message"]=="Please relogin to continue...")
+    {
+      Swal.fire(
+        'Session timed Out!',
+        'please relogin to continue.',
+        'success'
+      )
+    //  console.log("yes");
+      this.ls.adminLoginStatus=false;
+      this.ls.doLogout();
+      this.router.navigate(['../../']);
+      
+    }
+    else{
     this.userObj=objOfres["data"];
     if(this.userObj!=null){
     this.userobjstatus=true;}
@@ -65,6 +96,7 @@ export class IssueComponent implements OnInit {
         text: 'enter correct user id!',
        
       }); }
+    }
 });}
 else{
   this.bookobjstatus=false;
@@ -84,6 +116,20 @@ submitForm(obj)
   {
     if(this.isvalid(obj)){
       this.hc.post('/admin/issue',obj).subscribe((res)=>{
+        if(res["message"]=="Please relogin to continue...")
+        {
+          Swal.fire(
+            'Session timed Out!',
+            'please relogin to continue.',
+            'success'
+          )
+        //  console.log("yes");
+          this.ls.adminLoginStatus=false;
+          this.ls.doLogout();
+          this.router.navigate(['../../']);
+          
+        }
+        else{
         if(res["message"]=="book issued"){
         Swal.fire({
           icon: 'success',
@@ -98,6 +144,7 @@ submitForm(obj)
             text: res["message"],
           });  
         }
+      }
          });
          this.issuedate=this.datePipe.transform(this.myDate,'yyyy-MM-dd');
          this.bookobjstatus=false;

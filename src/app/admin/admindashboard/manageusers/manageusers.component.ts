@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
 import 'sweetalert2/src/sweetalert2.scss'
+import { LoginService } from 'src/app/login.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,7 +18,7 @@ export class ManageusersComponent implements OnInit {
   userid:string;
   userObj:object;
   userobjstatus:boolean=false;
-  constructor(private hc:HttpClient) { }
+  constructor(private hc:HttpClient,private ls:LoginService,private router:Router) { }
  
   ngOnInit() {
     
@@ -25,6 +27,20 @@ export class ManageusersComponent implements OnInit {
     this.userid=userid;
     if(!(this.userid==null || this.userid.trim()=="")){
     this.hc.get(`/admin/admindashboard/circulation/issuefinduser/${this.userid}`).subscribe((objOfres:object)=>{
+      if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
       this.userObj=objOfres["data"];
       if(this.userObj!=null){
       this.userobjstatus=true;
@@ -38,6 +54,7 @@ export class ManageusersComponent implements OnInit {
           title: 'Invalid details!',
           text: 'Enter correct userid',
         });  }
+      }
   });}
   else{
     Swal.fire({
@@ -52,6 +69,20 @@ export class ManageusersComponent implements OnInit {
     
     if(this.isvalid(obj)){
       this.hc.put('admin/edituser',obj).subscribe((res)=>{
+        if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
         if(res["message"]=="user details updated")
         {
           Swal.fire({
@@ -68,6 +99,7 @@ export class ManageusersComponent implements OnInit {
             text: res["message"]
           });  
         }
+      }
       });
         this.userobjstatus=false;  
     }
@@ -83,6 +115,20 @@ export class ManageusersComponent implements OnInit {
  {
    if(this.isvalid(obj)){
      this.hc.put('admin/edituid',obj).subscribe((res)=>{
+      if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
        if(res["message"]=="user details updated")
        {
         Swal.fire({
@@ -99,6 +145,7 @@ export class ManageusersComponent implements OnInit {
           text: res["message"]
         });  
        }
+      }
      });
    }
    else{
@@ -141,6 +188,20 @@ else{
    deluser(obj)
    {
      this.hc.delete(`/admin/deleteuser/${obj['userid']}`).subscribe((res=>{
+      if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
       if(res["message"]=="user deleted")
       {
         Swal.fire({
@@ -157,6 +218,7 @@ else{
           text: res["message"]
         }); 
       }
+    }
      }));
  
    }     

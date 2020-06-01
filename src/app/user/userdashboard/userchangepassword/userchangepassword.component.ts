@@ -4,6 +4,7 @@ import { UserobjService } from 'src/app/userobj.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
 import 'sweetalert2/src/sweetalert2.scss'
+import { LoginService } from 'src/app/login.service';
 
 @Component({
   selector: 'app-userchangepassword',
@@ -11,7 +12,7 @@ import 'sweetalert2/src/sweetalert2.scss'
   styleUrls: ['./userchangepassword.component.css']
 })
 export class UserchangepasswordComponent implements OnInit {
-  constructor(private us:UserdashboardComponent,private uos:UserobjService,private router:Router) { }
+  constructor(private us:UserdashboardComponent,private uos:UserobjService,private router:Router,private ls:LoginService) { }
 userObj:object;
 secquestatus:boolean=false;
 secquestatusverify:boolean=false;
@@ -62,6 +63,20 @@ secques:string="";
     if(this.isvalid(secqobj)){
     secqobj["userid"]=this.userObj["userid"];
     this.uos.addsecques(secqobj).subscribe((res)=>{
+      if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.userLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
       if(res["message"]=="added successfully")
       {
         Swal.fire({
@@ -78,6 +93,7 @@ secques:string="";
 
         console.log("here is error in uscg",res);
       }
+    }
     }) 
     this.userObj=this.us.getuserobjfromDb();
   }
@@ -94,6 +110,21 @@ secques:string="";
     secqobj["userid"]=this.userObj["userid"];
     console.log("cp fun obj",secqobj);
     this.uos.changepasswrd(secqobj).subscribe((res)=>{
+      if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.userLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else
+      {
       if(res["message"]=="password successfully updated")
       {
         Swal.fire({
@@ -115,6 +146,7 @@ secques:string="";
         });
        
       }
+    }
     });}
     else{
       Swal.fire({

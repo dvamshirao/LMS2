@@ -4,6 +4,10 @@ import 'datatables.net-bs4';
 import * as XLSX from 'xlsx';
 import { HttpClient } from '@angular/common/http';
 import {ExcelServiceService} from 'src/app/excel-service.service';
+import { LoginService } from 'src/app/login.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
+import 'sweetalert2/src/sweetalert2.scss';
 
 @Component({
   selector: 'app-bookslist',
@@ -19,10 +23,24 @@ export class BookslistComponent implements OnInit {
   willDownload = false;
   jsonData = null;
   j;
-  constructor(private hc:HttpClient,private excelService:ExcelServiceService) { }
+  constructor(private hc:HttpClient,private excelService:ExcelServiceService,private ls:LoginService,private router:Router) { }
 
   ngOnInit() {
     this.hc.get('/admin/admindashboard/bookslist').subscribe((res)=>{
+      if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
       this.bookObj=res["data"];
       this.temp = true; 
       $(function() {
@@ -30,6 +48,7 @@ export class BookslistComponent implements OnInit {
           $('#booksexample').DataTable();
         });
       });
+    }
     })
   }
   exportAsXLSX():void {
@@ -78,8 +97,27 @@ export class BookslistComponent implements OnInit {
       
       console.log(this.jsonData[this.j]);
       this.hc.post('admin/uploadbookdetails',this.jsonData[this.j]).subscribe((objOfres:object)=>{
+        if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
         //  console.log("retrived");
-          alert("message");
+        Swal.fire({
+          icon: 'success',
+          title: 'Uploaded!',
+          text: "book details uploaded succesfully",
+        });
+      }
          
         }); 
     }

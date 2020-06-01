@@ -29,8 +29,24 @@ export class UserdashboardComponent implements OnInit {
   this.ar.paramMap.subscribe(param=>{
     this.username=param.get("username");
      this.hc.get(`/user/userdashboard/${this.username}`).subscribe((objOfres:object)=>{
+      if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.userLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else
+      {
          this.userObj=objOfres["data"];
          this.userLoginStatus=this.ls.userLoginStatus;
+      }
      })
   });
   }
@@ -38,7 +54,22 @@ getuserobjfromDb()
 { 
   console.log("this.userObj username",this.userObj["userid"]);
 this.hc.get(`/user/userdashboardfinduser/${this.userObj["userid"]}`).subscribe((objOfres:object)=>{
+  if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.userLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
   this.userObj=objOfres["data"];
+      }
 });
 return this.userObj;
 }

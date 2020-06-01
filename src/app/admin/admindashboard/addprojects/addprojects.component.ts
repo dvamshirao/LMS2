@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
 import 'sweetalert2/src/sweetalert2.scss'
 import { RegisterService } from 'src/app/register.service';
+import { LoginService } from 'src/app/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-addprojects',
@@ -14,7 +16,7 @@ export class AddprojectsComponent implements OnInit {
   projObj:object;
   editbuttonstatus:boolean=false;
   projobjstatus:boolean=false;
-  constructor(private hc:HttpClient,private rs:RegisterService) { }
+  constructor(private hc:HttpClient,private rs:RegisterService,private ls:LoginService,private router:Router) { }
 
   ngOnInit() {
   }
@@ -23,6 +25,20 @@ export class AddprojectsComponent implements OnInit {
     if(this.isvalid(projObj)){
       projObj["status"]=false;
     this.rs.projRegister(projObj).subscribe((res)=>{
+      if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.userLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
       if(res["message"]=="project already exists")
       {
         Swal.fire({
@@ -41,6 +57,7 @@ export class AddprojectsComponent implements OnInit {
           timer: 1500
         });
       }
+    }
     }) ;
   }
   else{
@@ -57,6 +74,20 @@ export class AddprojectsComponent implements OnInit {
     this.projid=projid;
     if(!(this.projid==null || this.projid.trim()=="")){
     this.hc.get(`/admin/findprojid/${this.projid}`).subscribe((objOfres:object)=>{
+      if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
     this.projObj=objOfres["data"];
     if (this.projObj!=null){
     this.projobjstatus=true;
@@ -70,6 +101,7 @@ export class AddprojectsComponent implements OnInit {
      
     });  
   }
+}
   });}
   else{
     Swal.fire({
@@ -83,6 +115,20 @@ export class AddprojectsComponent implements OnInit {
  {
    if(this.isvalid(obj)){
      this.hc.put('admin/editproj',obj).subscribe((res)=>{
+      if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
        if(res["message"]=="project details updated")
        {
         Swal.fire({
@@ -101,6 +147,7 @@ export class AddprojectsComponent implements OnInit {
           text: res["message"]
         });  
        }
+      }
      });
        this.projobjstatus=false;  
    }
@@ -116,6 +163,20 @@ export class AddprojectsComponent implements OnInit {
  {
    if(this.isvalid(obj)){
      this.hc.put('admin/editpid',obj).subscribe((res)=>{
+      if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
        if(res["message"]=="project details updated")
        {
         Swal.fire({
@@ -132,6 +193,7 @@ export class AddprojectsComponent implements OnInit {
           text: res["message"]
         });  
        }
+      }
      });
        this.projobjstatus=false;  
    }
@@ -177,6 +239,20 @@ else{
 delproj(obj)
 {
   this.hc.delete(`/admin/deleteproj/${obj['projid']}`).subscribe((res=>{
+    if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
 if(res["message"]=="project deleted")
 {
 Swal.fire({
@@ -192,7 +268,7 @@ Swal.fire({
   icon: 'error',
   text: res["message"]
 }); 
-}
+}}
 }));
 }  
 

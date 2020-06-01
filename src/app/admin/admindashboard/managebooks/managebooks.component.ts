@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
-import 'sweetalert2/src/sweetalert2.scss'
+import 'sweetalert2/src/sweetalert2.scss';
+import { LoginService } from 'src/app/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-managebooks',
@@ -13,7 +15,7 @@ bookid:string;
 bookObj:object;
 editbuttonstatus:boolean=false;
 bookobjstatus:boolean=false;
-  constructor(private hc:HttpClient) { }
+  constructor(private hc:HttpClient,private ls:LoginService,private router:Router) { }
 
   ngOnInit() {
   }
@@ -21,6 +23,20 @@ bookobjstatus:boolean=false;
     this.bookid=bookid;
     if(!(this.bookid==null || this.bookid.trim()=="")){
     this.hc.get(`/admin/admindashboard/circulation/issuefindbook/${this.bookid}`).subscribe((objOfres:object)=>{
+      if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
     this.bookObj=objOfres["data"];
     if (this.bookObj!=null){
     this.bookobjstatus=true;
@@ -34,6 +50,7 @@ bookobjstatus:boolean=false;
      
     });  
   }
+}
   });}
   else{
     Swal.fire({
@@ -47,6 +64,20 @@ bookobjstatus:boolean=false;
  {
    if(this.isvalid(obj)){
      this.hc.put('admin/editbook',obj).subscribe((res)=>{
+      if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
        if(res["message"]=="book details updated")
        {
         Swal.fire({
@@ -65,6 +96,7 @@ bookobjstatus:boolean=false;
           text: res["message"]
         });  
        }
+      }
      });
        this.bookobjstatus=false;  
    }
@@ -81,6 +113,20 @@ bookobjstatus:boolean=false;
  {
    if(this.isvalid(obj)){
      this.hc.put('admin/editbid',obj).subscribe((res)=>{
+      if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
        if(res["message"]=="book details updated")
        {
         Swal.fire({
@@ -97,6 +143,7 @@ bookobjstatus:boolean=false;
           text: res["message"]
         });  
        }
+      }
      });
        this.bookobjstatus=false;  
    }
@@ -113,6 +160,20 @@ bookobjstatus:boolean=false;
  {
    if(this.isvalid(obj)){
      this.hc.put('admin/editbno',obj).subscribe((res)=>{
+      if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
        if(res["message"]=="book details updated")
        {
         Swal.fire({
@@ -129,6 +190,7 @@ bookobjstatus:boolean=false;
           text: res["message"]
         });  
        }
+      }
      });
        this.bookobjstatus=false;  
    }
@@ -173,6 +235,20 @@ bookobjstatus:boolean=false;
   delbook(obj)
   {
     this.hc.put('/admin/deletebookid',obj).subscribe((res=>{
+      if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
      if(res["message"]=="book deleted")
      {
       Swal.fire({
@@ -189,6 +265,7 @@ bookobjstatus:boolean=false;
         text: res["message"]
       }); 
      }
+    }
     }));
   }     
 /************************************************************************ */
@@ -225,6 +302,20 @@ else{
 deltbook(obj)
 {
 this.hc.delete(`/admin/deletebook/${obj['ISBNnumber']}`).subscribe((res=>{
+  if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
 if(res["message"]=="book deleted")
 {
 Swal.fire({
@@ -241,6 +332,7 @@ Swal.fire({
   text: res["message"]
 }); 
 }
+      }
 }));
 }     
 

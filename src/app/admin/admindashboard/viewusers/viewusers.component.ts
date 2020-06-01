@@ -4,6 +4,10 @@ import 'datatables.net-bs4';
 import * as XLSX from 'xlsx';
 import { HttpClient } from '@angular/common/http';
 import {ExcelServiceService} from 'src/app/excel-service.service';
+import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
+import 'sweetalert2/src/sweetalert2.scss';
+import { LoginService } from 'src/app/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-viewusers',
@@ -19,9 +23,23 @@ temp: boolean=false;
 jsonData=null;
 j;
 filename:string="";
-  constructor(private hc:HttpClient,private excelService:ExcelServiceService) { }
+  constructor(private hc:HttpClient,private excelService:ExcelServiceService,private ls:LoginService,private router:Router) { }
   ngOnInit() {
     this.hc.get('/admin/admindashboard/manageusers/viewusers').subscribe((objOfres:object)=>{
+      if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
       this.userObj=objOfres["data"];
       for(let i=0;i<this.userObj.length;i++)
       {
@@ -36,6 +54,7 @@ filename:string="";
         $('#userexample').DataTable();
       });
     }); 
+  }
 });
 
   }
@@ -83,7 +102,24 @@ filename:string="";
   uploaduserdetails()
   {
     this.hc.post('admin/admindashboard/books/bookslist/uploadbooksdata',this.jsonData[this.j]).subscribe((objOfres:object)=>{
-      alert(objOfres["message"]);
+      if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      Swal.fire({
+        icon: 'success',
+        title: 'Uploaded!',
+        text: "user details uploaded succesfully",
+      });
     });
   }
 

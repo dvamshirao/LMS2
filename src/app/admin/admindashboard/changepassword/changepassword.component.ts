@@ -25,6 +25,20 @@ export class ChangepasswordComponent implements OnInit {
   { if(this.isvalid(obj)){
     console.log(obj.changedusername);
     this.hc.post(`/admin/changeusername/${this.ls.adminid}`,obj).subscribe((res)=>{
+      if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
       if(res["message"]=="username successfully updated")
       {
         Swal.fire({
@@ -36,7 +50,7 @@ export class ChangepasswordComponent implements OnInit {
         this.router.navigate(['vnrlms']);
 
       }
-
+    }
     });}
     else{
       Swal.fire({
@@ -53,6 +67,20 @@ export class ChangepasswordComponent implements OnInit {
     console.log(this.ls.adminid);
     
     this.hc.post(`/admin/verifysecuritykey/${this.ls.adminid}`,obj).subscribe((res)=>{
+      if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
       if(res["message"]=="security key successfully verified")
       {
         Swal.fire({
@@ -70,7 +98,7 @@ export class ChangepasswordComponent implements OnInit {
           text: res["message"],
         });  
       }
-      
+    }
     });}
     else{
       Swal.fire({
@@ -90,6 +118,20 @@ export class ChangepasswordComponent implements OnInit {
     if(obj.password==obj.reenteredpassword)
     {
       this.hc.post(`/admin/changepassword/${this.ls.adminid}`,obj).subscribe((res)=>{
+        if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
 
         if(res["message"]=="password successfully updated")
         {
@@ -102,7 +144,7 @@ export class ChangepasswordComponent implements OnInit {
           this.router.navigate(['vnrlms']);
 
         }
-
+      }
       });
     }
     else{

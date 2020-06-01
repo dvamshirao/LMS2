@@ -4,6 +4,7 @@ import { RegisterService } from 'src/app/register.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
 import 'sweetalert2/src/sweetalert2.scss'
+import { LoginService } from 'src/app/login.service';
 
 @Component({
   selector: 'app-adduser',
@@ -13,13 +14,27 @@ import 'sweetalert2/src/sweetalert2.scss'
 export class AdduserComponent implements OnInit {
  
 
-  constructor(private hc:HttpClient,private rs:RegisterService,private router:Router) { }
+  constructor(private hc:HttpClient,private rs:RegisterService,private router:Router,private ls:LoginService) { }
 
   ngOnInit() {
   } 
   submitForm(userObj){
     if(this.isvalid(userObj)){
     this.rs.userRegister(userObj).subscribe((res)=>{
+      if(res["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
       if(res["message"]=="userid already existed")
       {
         Swal.fire({
@@ -39,6 +54,7 @@ export class AdduserComponent implements OnInit {
         });
         this.router.navigate(['./admindashboard/users/adduser'])
       }
+    }
     }) ;
   }
   else{

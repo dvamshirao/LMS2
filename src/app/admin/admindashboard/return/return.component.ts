@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
 import 'sweetalert2/src/sweetalert2.scss'
+import { LoginService } from 'src/app/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-return',
@@ -25,7 +27,7 @@ export class ReturnComponent implements OnInit {
   myDate=new Date();
   bid:string;
 dateofreturn:any;
-  constructor(private hc:HttpClient,private datePipe:DatePipe) { }
+  constructor(private hc:HttpClient,private datePipe:DatePipe,private ls:LoginService,private router:Router) { }
   inputText :string = "I am sample text";
   ngOnInit() {
    this.dateofreturn=this.datePipe.transform(this.myDate,'yyyy-MM-dd');
@@ -36,6 +38,20 @@ dateofreturn:any;
     this.bookid=bookid;
     if(!(this.bookid==null || this.bookid.trim()=="")){
         this.hc.get(`/admin/admindashboard/circulation/issuefindbook/${this.bookid}`).subscribe((objOfres:object)=>{
+          if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
         this.bookObj=objOfres["data"];
         if (this.bookObj!=null){
           this.disablebno=true;
@@ -47,6 +63,7 @@ dateofreturn:any;
             text: 'enter correct book number!',
             }); 
             }
+          }
           });
         }
     else{
@@ -62,6 +79,20 @@ dateofreturn:any;
   this.userid=userid;
   if(!(this.userid==null || this.userid.trim()=="")){
   this.hc.get(`/admin/admindashboard/circulation/issuefinduser/${this.userid}`).subscribe((objOfres:object)=>{
+    if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
     this.userObj=objOfres["data"];
     if(this.userObj!=null){
       this.disableuno=true;
@@ -73,6 +104,7 @@ dateofreturn:any;
         text: 'enter correct user id!',
        
       }); }
+    }
 });}
 else{
   this.bookobjstatus=false;
@@ -90,6 +122,20 @@ getissuedetails(bid)
   this.bid=bid;
   if(!(this.bid==null || this.bid.trim()=="")){
   this.hc.get(`/admin/admindashboard/circulation/returnfindbid/${this.bid}`).subscribe((objOfres:object)=>{
+    if(objOfres["message"]=="Please relogin to continue...")
+      {
+        Swal.fire(
+          'Session timed Out!',
+          'please relogin to continue.',
+          'success'
+        )
+      //  console.log("yes");
+        this.ls.adminLoginStatus=false;
+        this.ls.doLogout();
+        this.router.navigate(['../../']);
+        
+      }
+      else{
     this.issueObj=objOfres["data"];
     if (this.issueObj==null)
     { 
@@ -102,6 +148,7 @@ getissuedetails(bid)
     else{
     this.disablebid=true;
     this.getissuedetailsstatus=true;}
+      }
   });}else{
     this.disablebno=false;
     this.disablebid=false;
@@ -121,6 +168,20 @@ getissuedetails(bid)
   {
     if(this.isvalid(returnobj)){
       this.hc.post('/admin/return',returnobj).subscribe((res)=>{
+        if(res["message"]=="Please relogin to continue...")
+        {
+          Swal.fire(
+            'Session timed Out!',
+            'please relogin to continue.',
+            'success'
+          )
+        //  console.log("yes");
+          this.ls.adminLoginStatus=false;
+          this.ls.doLogout();
+          this.router.navigate(['../../']);
+          
+        }
+        else{
         if(res["message"]=="bookreturned successfully"){
           Swal.fire({
             icon: 'success',
@@ -135,6 +196,7 @@ getissuedetails(bid)
               text: res["message"],
             });  
           }  
+        }
          });
          this.disablebno=false;
          this.disablebid=false;
